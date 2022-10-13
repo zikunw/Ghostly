@@ -4,4 +4,4 @@ Textbook Exchange
 
 A web application where students find used textbooks from other students. Currently many students do this through social media, there isn't a centralized place
 to do this. Through this application students will create a profile and add what books they need or what books they want to sell. That will be our database, and we 
-will also use a google api that will also find the books the student wants and compare the online prices with the student prices. 
+will also use a google api that will find the books the student wants and compare the online prices with the student prices. 
