@@ -25,7 +25,7 @@ app.get('/api/getbook', async (req, res) => {
     
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+intitle`);
     const myJson = await response.json();
-    
+
     res.json(myJson)
 })
   

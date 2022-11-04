@@ -8,9 +8,9 @@ const App = () => {
 
     async function handleSubmit(e)  {
         e.preventDefault();
-        console.log("Form clicked");
         const results = await getBook(bookTitle);
         setBookList(results.items);
+        console.log(results); // there is a lot of good info
     }
       
 
@@ -27,7 +27,7 @@ const App = () => {
 
         <ol>
             {bookList.map((book) =>
-              <li>{book.volumeInfo.title}</li>
+              <li key={book.id}>{book.volumeInfo.title}</li>
             )}
         </ol>
         
