@@ -22,13 +22,9 @@ app.get('/api/getbook', async (req, res) => {
     const title = req.query.title
     console.log("Book requested")
     console.log(title)
-    //fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+intitle`)
-    //    .then(response => console.log(response))
-    //    .catch((error) => { console.error('There has been a problem with your fetch operation:', error);})
     
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+intitle`);
     const myJson = await response.json();
-    //console.log(myJson)
     
     res.json(myJson)
 })
