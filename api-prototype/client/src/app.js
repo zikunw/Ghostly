@@ -10,7 +10,7 @@ const App = () => {
         e.preventDefault();
         console.log("Form clicked");
         const results = await getBook(bookTitle);
-        console.log(results)
+        setContent(JSON.stringify(results));
     }
       
 
