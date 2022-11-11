@@ -8,30 +8,24 @@ const App = () => {
     const [responses, setResponses] = useState([])
     const [rawJson, setRawJson] = useState('{}')
 
-    const jsonStyle = {
-        propertyStyle: { color: 'red' },
-        stringStyle: { color: 'green' },
-        numberStyle: { color: 'darkorange' }
-      }
-
     async function handleSearchBook(e)  {
         e.preventDefault();
         const results = await getBook(title);
         setResponses(results.items);
-        setRawJson(JSON.stringify(results));
-        console.log(results); // there is a lot of good info
+        setRawJson(JSON.stringify(results, null, 2));
+        console.log(results); 
     }
 
     async function handleSearchVideo(e)  {
         e.preventDefault();
         const results = await getVideo(title);
         setResponses(results.items);
-        setRawJson(JSON.stringify(results));
-        console.log(results); // there is a lot of good info
+        setRawJson(JSON.stringify(results, null, 2));
+        console.log(results); 
     }
       
 
-    return(
+    return (
         <>
         <h1>API call test from client</h1>
         <form action="/getbook" method="GET">
@@ -54,7 +48,7 @@ const App = () => {
         
 
         <p>JSON result:</p>
-        <JsonFormatter json={rawJson} tabWith={4} jsonStyle={jsonStyle} />
+        <pre>{rawJson}</pre>
         
         </>
         
