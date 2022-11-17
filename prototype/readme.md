@@ -1,5 +1,7 @@
 # Readme
 
+This is a prototype for testing API calls using the express.js backend.
+
 How to run:
 1. `npm start` in server folder. (on port 3080)
 2. `npm start` in client folder. (on port 3000)
