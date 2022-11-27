@@ -1,31 +1,34 @@
 import Link from 'next/link'
-import { Stack, Button } from '@chakra-ui/react'
+import { Stack, Button, Avatar, Flex, Spacer, ButtonGroup } from '@chakra-ui/react'
 import { useContext } from 'react'
 import { UserContext } from '../lib/context'
+import { auth } from '../lib/firebase'
 
 const NavBar = () => {
     const { userData } = useContext(UserContext)
     const { user, username } = userData
 
     return (
-        <Stack direction='row' spacing={4} align='center' p={6} borderBottom='1px'>
+        <Flex direction='row' spacing={4} align='center' p={6} borderBottom='1px'>
             <Link href={"/"}>
                 <Button colorScheme='teal' variant='solid'>
                         Homepage
                 </Button>
             </Link>
 
+            <Spacer />
+
             {username && (
-                    <>
+                    <ButtonGroup gap='2'>
                         <Button colorScheme='teal' variant='solid'>
                             <button onClick={()=>{auth.signOut()}}>Sign out</button>
                         </Button>
-                        <Button colorScheme='teal' variant='solid'>
-                            <Link href={`/${username}`}>
-                                <img src={user?.photoURL} />
-                            </Link>
-                        </Button>
-                    </>
+                        
+                        <Link href={`/${username}`}>
+                            <Avatar name='User avatar' src={user?.photoURL} />
+                        </Link>
+                    
+                    </ButtonGroup>
                 )}
 
                 {!username && (
@@ -36,7 +39,7 @@ const NavBar = () => {
                     
                 )}
             
-        </Stack>
+        </Flex>
     )
 }
 
