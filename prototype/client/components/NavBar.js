@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import { Stack, Button } from '@chakra-ui/react'
+import { useContext } from 'react'
+import { UserContext } from '../lib/context'
 
 const NavBar = () => {
-    const user = null;
-    const username = null;
+    const { userData } = useContext(UserContext)
+    const { user, username } = userData
 
     return (
-        <Stack direction='row' spacing={4} align='center' p={6} bgColor='grey.100'>
+        <Stack direction='row' spacing={4} align='center' p={6} borderBottom='1px'>
             <Link href={"/"}>
                 <Button colorScheme='teal' variant='solid'>
                         Homepage
