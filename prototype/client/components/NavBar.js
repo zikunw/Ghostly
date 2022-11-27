@@ -41,8 +41,8 @@ const NavBar = () => {
                                 <Avatar name='User avatar' src={user?.photoURL} />
                             </Link>
                         </Center>
-                        <Button colorScheme='teal' variant='solid'>
-                            <button onClick={()=>{auth.signOut()}}>Sign out</button>
+                        <Button colorScheme='teal' variant='solid' onClick={()=>{auth.signOut()}}>
+                            Sign out
                         </Button>
                     </ButtonGroup>
                 )}

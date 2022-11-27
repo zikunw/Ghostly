@@ -68,27 +68,32 @@ const CreateCommunityPage = () => {
       };
 
     return (
-        <form onSubmit={onSubmit}>
-        <Center>
-            <Stack spacing='24px' w="50%">
-                <Heading>Create Community</Heading>
-                <Box>
-                    <FormLabel htmlFor='community-name'>New community name</FormLabel>
-                    <Input
-                      onChange={handleOnChange}
-                      id='community-name'
-                      placeholder='Please enter the name for the new community.'
-                    />
-                    {isValid && (<Badge colorScheme='green'>This is a valid name!</Badge>)}
-                    {!isValid && (<Badge colorScheme='red'>The name should be more than three letters long and without special characters.</Badge>)}
-                    
-                </Box>
-                <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid} >
-                    Submit
-                </Button>
-            </Stack>
-        </Center>
-        </form>
+        <>
+            {username && (
+                <form onSubmit={onSubmit}>
+                <Center>
+                    <Stack spacing='24px' w="50%">
+                        <Heading>Create Community</Heading>
+                        <Box>
+                            <FormLabel htmlFor='community-name'>New community name</FormLabel>
+                            <Input
+                              onChange={handleOnChange}
+                              id='community-name'
+                              placeholder='Please enter the name for the new community.'
+                            />
+                            {isValid && (<Badge colorScheme='green'>This is a valid name!</Badge>)}
+                            {!isValid && (<Badge colorScheme='red'>The name should be more than three letters long and without special characters.</Badge>)}
+                            
+                        </Box>
+                        <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid} >
+                            Submit
+                        </Button>
+                    </Stack>
+                </Center>
+                </form>
+            )}
+            {!username && (<Heading>Please log in first!</Heading>)}
+        </>
     )
 }
 
