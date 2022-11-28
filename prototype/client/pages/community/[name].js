@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 
+//TODO
+
 const CommunityPage = () => {
   const router = useRouter()
   const { name } = router.query

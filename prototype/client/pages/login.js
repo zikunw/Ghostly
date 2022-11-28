@@ -7,7 +7,7 @@ import { UserContext } from '../lib/context'
 
 import { debounce } from "lodash"
 
-import { Input, Button, Image, Box } from "@chakra-ui/react";
+import { Input, Button, Image, Box, Center, Card, CardHeader, Heading, CardBody } from "@chakra-ui/react";
 
 export default function EnterPage({}) {
     const {userData} = useContext(UserContext)
@@ -15,12 +15,21 @@ export default function EnterPage({}) {
 
     return (
         <main>
-            <h1>Sign Up</h1>
-            {user ? 
-               !username ? <UsernameForm /> : <SignOutButton /> 
-               : 
-               <SignInButton />
-            }
+            <Center>
+                <Card maxW='md' bg="gray.50" mt="5">
+                    <CardHeader>
+                      <Heading size='md'>Explore the communities!</Heading>
+                    </CardHeader>
+                    <CardBody>
+                        {user ? 
+                           !username ? <UsernameForm /> : <SignOutButton /> 
+                           : 
+                           <SignInButton />
+                        }
+                    </CardBody>
+                </Card>
+            </Center>
+            
         </main>
     )
 }
@@ -37,7 +46,7 @@ function SignInButton() {
     }
 
     return (
-        <Button leftIcon={<GoogleLogo />} colorScheme='teal' variant='solid' className="btn-google" onClick={signInWithGoogle}>
+        <Button leftIcon={<GoogleLogo />} colorScheme='gray' variant='solid' className="btn-google" onClick={signInWithGoogle}>
             Sign in with Google
         </Button>
     )

@@ -10,8 +10,6 @@ import { Heading } from '@chakra-ui/react'
 import CommunityList from '../components/CommunityList'
 
 export default function Home(props) {
-
-  console.log("home", props)
   return (
     <div>
       <Heading>Hello World</Heading>

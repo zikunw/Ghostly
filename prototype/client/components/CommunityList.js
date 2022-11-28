@@ -1,7 +1,7 @@
 import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
 import { firestore } from "../lib/firebase";
 import { useState, useEffect } from "react";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Link } from "@chakra-ui/react";
 
 const LIMIT = 10;
 
@@ -15,7 +15,7 @@ const CommunityList = (props) => {
         <>
             <Heading>Current communities:</Heading>
             <ul>
-                {communities?.map(community => <p>{community}</p>)}
+                {communities?.map(community => <Link href={"/community/" + community}><p>{community}</p></Link>)}
             </ul>
         </>
     )

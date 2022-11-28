@@ -9,20 +9,20 @@ const NavBar = () => {
     const { user, username } = userData
 
     return (
-        <Flex direction='row' spacing={4} align='center' p={6} borderBottom='1px'>
+        <Flex bg="gray.50" direction='row' spacing={4} align='center' p={6} borderBottom='1px'>
             <ButtonGroup gap="2">
                 <Link href={"/"}>
-                    <Button colorScheme='teal' variant='solid'>
+                    <Button colorScheme='gray' variant='solid'>
                             Homepage
                     </Button>
                 </Link>
                 <Link href={"/community"}>
-                    <Button colorScheme='teal' variant='solid'>
+                    <Button colorScheme='gray' variant='outline'>
                             Join Community
                     </Button>
                 </Link>
                 <Link href={"/community/create"}>
-                    <Button colorScheme='teal' variant='solid'>
+                    <Button colorScheme='gray' variant='outline'>
                             Create Community
                     </Button>
                 </Link>
@@ -41,7 +41,7 @@ const NavBar = () => {
                                 <Avatar name='User avatar' src={user?.photoURL} />
                             </Link>
                         </Center>
-                        <Button colorScheme='teal' variant='solid' onClick={()=>{auth.signOut()}}>
+                        <Button colorScheme='gray' variant='solid' onClick={()=>{auth.signOut()}}>
                             Sign out
                         </Button>
                     </ButtonGroup>
@@ -50,7 +50,7 @@ const NavBar = () => {
                 {!username && (
                     
                     <Link href={"/login"}>
-                        <Button colorScheme='teal' variant='solid'>Log in</Button>
+                        <Button colorScheme='gray' variant='solid'>Log in</Button>
                     </Link>
                     
                 )}

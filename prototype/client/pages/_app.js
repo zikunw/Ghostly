@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 
-import { ChakraProvider } from '@chakra-ui/react'
+import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react'
 import NavBar from '../components/NavBar'
 
 import { UserContext } from '../lib/context'
@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
   const userData = useUserData()
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <UserContext.Provider value={{userData}}>
         <NavBar />
         <Component {...pageProps} />
@@ -18,5 +18,15 @@ function MyApp({ Component, pageProps }) {
     </ChakraProvider>
     )
 }
+
+const theme = extendTheme({
+  styles: {
+    global: () => ({
+      body: {
+        bg: "#E2E8F0",
+      },
+    }),
+  },
+});
 
 export default MyApp

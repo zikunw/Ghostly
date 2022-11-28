@@ -6,7 +6,7 @@ import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 
 import { useRouter } from 'next/router'
 
-const { Heading, Stack, Box, FormLabel, Input, Center, Badge, Button, Spacer } = require("@chakra-ui/react")
+const { Heading, Stack, Box, FormLabel, Input, Center, Badge, Button, Spacer, Card, CardHeader, CardBody } = require("@chakra-ui/react")
 
 const CreateCommunityPage = () => {
     const router = useRouter()
@@ -72,23 +72,29 @@ const CreateCommunityPage = () => {
             {username && (
                 <form onSubmit={onSubmit}>
                 <Center>
-                    <Stack spacing='24px' w="50%">
-                        <Heading>Create Community</Heading>
-                        <Box>
-                            <FormLabel htmlFor='community-name'>New community name</FormLabel>
-                            <Input
-                              onChange={handleOnChange}
-                              id='community-name'
-                              placeholder='Please enter the name for the new community.'
-                            />
-                            {isValid && (<Badge colorScheme='green'>This is a valid name!</Badge>)}
-                            {!isValid && (<Badge colorScheme='red'>The name should be more than three letters long and without special characters.</Badge>)}
-                            
-                        </Box>
-                        <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid} >
-                            Submit
-                        </Button>
-                    </Stack>
+                    <Card bg="gray.50" mt={5}>
+                        <CardHeader>
+                            <Heading>Create Community</Heading>
+                        </CardHeader>
+                        <CardBody>
+                        <Stack spacing='24px'>
+                            <Box>
+                                <FormLabel htmlFor='community-name'>New community name</FormLabel>
+                                <Input
+                                  onChange={handleOnChange}
+                                  id='community-name'
+                                  placeholder='Please enter the name for the new community.'
+                                />
+                                {isValid && (<Badge colorScheme='green'>This is a valid name!</Badge>)}
+                                {!isValid && (<Badge colorScheme='red'>Invalid name. Try harder.</Badge>)}
+
+                            </Box>
+                            <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid} >
+                                Submit
+                            </Button>
+                        </Stack>
+                        </CardBody>
+                    </Card>
                 </Center>
                 </form>
             )}
