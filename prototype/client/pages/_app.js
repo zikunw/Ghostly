@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar'
 
 import { UserContext } from '../lib/context'
 import { useUserData } from '../lib/hooks'
+import { Footer } from '../components/Footer'
 
 function MyApp({ Component, pageProps }) {
   const userData = useUserData()
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }) {
       <UserContext.Provider value={{userData}}>
         <NavBar />
         <Component {...pageProps} />
+        <Footer />
       </UserContext.Provider>
     </ChakraProvider>
     )
