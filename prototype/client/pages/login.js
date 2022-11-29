@@ -7,7 +7,9 @@ import { UserContext } from '../lib/context'
 
 import { debounce } from "lodash"
 
-import { Input, Button, Image, Box, Center, Card, CardHeader, Heading, CardBody } from "@chakra-ui/react";
+import Link from "next/link";
+
+import { Input, Button, Image, Box, Center, Card, CardHeader, Heading, CardBody, Grid, GridItem } from "@chakra-ui/react";
 
 export default function EnterPage({}) {
     const {userData} = useContext(UserContext)
@@ -16,13 +18,13 @@ export default function EnterPage({}) {
     return (
         <main>
             <Center>
-                <Card maxW='md' bg="gray.50" mt="5">
+                <Card maxW='md' bg="gray.50" mt="10" p="10">
                     <CardHeader>
-                      <Heading size='md'>Explore the communities!</Heading>
+                      <Heading size='md'>Login</Heading>
                     </CardHeader>
                     <CardBody>
                         {user ? 
-                           !username ? <UsernameForm /> : <SignOutButton /> 
+                           !username ? <UsernameForm /> : <SignOutButton username={username}/> 
                            : 
                            <SignInButton />
                         }
@@ -52,8 +54,18 @@ function SignInButton() {
     )
 }
 
-function SignOutButton() {
-    return <Button colorScheme='teal' variant='solid' onClick={() => auth.signOut()}>Sign out</Button>
+function SignOutButton(props) {
+    return (
+        <Grid
+            h="200px"
+        >
+            <Heading>Welcome {props.username}!</Heading>
+            <Button colorScheme='gray' variant='outline' onClick={() => auth.signOut()}>Sign out</Button>
+            <Link href="/" width="100%">
+                <Button colorScheme='gray' variant='outline'>Explore communities</Button>
+            </Link>
+        </Grid>
+    )
 }
 
 function UsernameForm() {
@@ -125,13 +137,6 @@ function UsernameForm() {
                     <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid}>
                         Submit
                     </Button>
-                    <h3>Debug</h3>
-                    <div>
-                        Username: {formValue} <br />
-                        Loading: {loading.toString()} <br />
-                        Username Valid: {isValid.toString()} <br />
-
-                    </div>
                 </form>
             </section>
         )

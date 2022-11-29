@@ -31,8 +31,8 @@ export async function getServerSideProps(context) {
     });
 
   return {
-    props: { 
-      communities: communities,
-  }, // will be passed to the page component as props
+      props: { 
+        communities: communities,
+    }, // will be passed to the page component as props
   };
 }

@@ -4,14 +4,14 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCfC7Oggf_ITVnHn7nKr6LDISNP-jLcjkI",
-    authDomain: "fireship-tutorial-ffdae.firebaseapp.com",
-    projectId: "fireship-tutorial-ffdae",
-    storageBucket: "fireship-tutorial-ffdae.appspot.com",
-    messagingSenderId: "239639740612",
-    appId: "1:239639740612:web:a9755e85fe945af4260991",
-    measurementId: "G-BHH78VKM47"
-  };
+  apiKey: "AIzaSyDago-4YYJGzJJVzVFceXpr4wAoeP0M4Tw",
+  authDomain: "dumpster-fire-77886.firebaseapp.com",
+  projectId: "dumpster-fire-77886",
+  storageBucket: "dumpster-fire-77886.appspot.com",
+  messagingSenderId: "252776852063",
+  appId: "1:252776852063:web:d26063515a4d642da149ea",
+  measurementId: "G-TMPZ5ZRNRW"
+};
 
 if (!getApps().length) {
     //...

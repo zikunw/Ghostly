@@ -3,6 +3,7 @@ import { debounce } from "lodash"
 import { UserContext } from "../../lib/context"
 import { auth, firestore, googleAuthProvider } from "../../lib/firebase"
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 
 import { useRouter } from 'next/router'
 
@@ -59,7 +60,7 @@ const CreateCommunityPage = () => {
 
         const batch = writeBatch(firestore);
         batch.set(communityDoc, {
-            test: "test",
+            creationDate: Timestamp.now()
         });
         batch.set(userDoc, {username: username})
 

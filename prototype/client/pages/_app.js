@@ -1,11 +1,11 @@
 import '../styles/globals.css'
 
-import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { Box, ChakraProvider, extendTheme, Flex, Spacer } from '@chakra-ui/react'
 import NavBar from '../components/NavBar'
 
 import { UserContext } from '../lib/context'
 import { useUserData } from '../lib/hooks'
-import { Footer } from '../components/Footer'
+import Footer from '../components/Footer'
 
 function MyApp({ Component, pageProps }) {
   const userData = useUserData()
@@ -13,9 +13,15 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <UserContext.Provider value={{userData}}>
-        <NavBar />
-        <Component {...pageProps} />
-        <Footer />
+        <Flex
+          direction="column"
+          minH="100vh"
+        >
+          <NavBar />
+          <Component {...pageProps} />
+          <Spacer />
+          <Footer />
+        </Flex>
       </UserContext.Provider>
     </ChakraProvider>
     )

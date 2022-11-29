@@ -27,7 +27,14 @@ Value: Google OAuth uid
 
 Basic unit of community.
 
-TODO
+Key: group name
+
+Fields:
+1. group description
+2. creation date
+3. catelog
+4. \[users\]
+5. \[posts\]
 
 ### communities/{community}/posts/{post}
 
@@ -39,4 +46,4 @@ TODO
 
 User under a community.
 
-TODO
+Key: uid
