@@ -5,20 +5,31 @@ import { signInWithPopup } from "firebase/auth"
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../lib/context'
 
+import { useMediaQuery } from "@chakra-ui/react";
+
 import { debounce } from "lodash"
 
 import NextLink from 'next/link'
 import { Link } from '@chakra-ui/react'
 
 import { Input, Button, Image, Box, Center, Card, CardHeader, Heading, CardBody, Grid, GridItem, Badge, SimpleGrid, Avatar } from "@chakra-ui/react";
-
+//<Image src={"/login-background.png"}></Image>
 export default function EnterPage({}) {
     const {userData} = useContext(UserContext)
     const {user, username} = userData
 
+    const [isLargerThan800] = useMediaQuery('(min-width: 1000px)')
+
     return (
-        <main>
+        <main flex='1'>
             <Center>
+                {isLargerThan800 && <Image 
+                    src={"/login-background.png"}
+                    position="absolute"
+                    top="100" 
+                    left="0"
+                    zIndex={0}
+                ></Image>}
                 <Card maxW='md' bg="gray.50" mt="10" p="10" mb={5} border="1px">
                     <CardHeader>
                         <Center>
@@ -64,7 +75,7 @@ function SignOutButton(props) {
             gap={5}
         >
             <Center>
-                <Avatar name={props.username} src={props.user?.photoURL} size='xl'/>
+                <Avatar name={props.username} src={props.userPic} size='xl'/>
             </Center>
             
             <Heading>Welcome {props.username}!</Heading>

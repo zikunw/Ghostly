@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Stack, Button, Avatar, Flex, Spacer, ButtonGroup, Text, Center, Highlight } from '@chakra-ui/react'
+import { Stack, Button, Avatar, Flex, Spacer, ButtonGroup, Text, Center, Highlight, Image } from '@chakra-ui/react'
 import { useContext } from 'react'
 import { UserContext } from '../lib/context'
 import { auth } from '../lib/firebase'
@@ -9,10 +9,11 @@ const NavBar = () => {
     const { user, username } = userData
 
     return (
-        <Flex bg="gray.50" direction='row' spacing={4} align='center' p={6} borderBottom='1px'>
+        <Flex bg="gray.50" direction='row' spacing={4} align='center' p={6} borderBottom='1px' zIndex={1}>
             <ButtonGroup gap="2">
+                <Image src={'/logo.png'} boxSize='50px' />
                 <Link href={"/"}>
-                    <Button colorScheme='gray' variant='solid'>
+                    <Button colorScheme='gray' variant='outline'>
                             Homepage
                     </Button>
                 </Link>

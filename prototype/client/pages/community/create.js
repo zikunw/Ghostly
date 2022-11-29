@@ -8,7 +8,7 @@ import { Timestamp } from "firebase/firestore";
 import { useRouter } from 'next/router'
 import LoginWarning from "../../components/LoginWarning";
 
-const { Heading, Stack, Box, FormLabel, Input, Center, Badge, Button, Spacer, Card, CardHeader, CardBody } = require("@chakra-ui/react")
+const { Heading, Stack, Box, FormLabel, Input, Center, Badge, Button, Spacer, Card, CardHeader, CardBody, Image } = require("@chakra-ui/react")
 
 const CreateCommunityPage = () => {
     const router = useRouter()
@@ -80,6 +80,7 @@ const CreateCommunityPage = () => {
                         </CardHeader>
                         <CardBody>
                         <Stack spacing='24px'>
+                            <Center><Image src={'/find-friend.png'} boxSize='200px'/></Center>
                             <Box>
                                 <FormLabel htmlFor='community-name'>New community name</FormLabel>
                                 <Input

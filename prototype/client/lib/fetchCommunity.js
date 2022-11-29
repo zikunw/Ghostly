@@ -18,3 +18,24 @@ export async function getCommunityUsers(name) {
     return querySnapshot
 
 }
+
+export async function getCommunityPosts(name) {
+    //TODO
+}
+
+export async function addCommunityPosts(commmunityName, postTitle, postType, postContent, postUser) {
+    //TODO
+}
+
+export async function deleteCommunityPosts(communityName, postId) {
+    //TODO
+}
+
+export async function addCommunityUser(communityName, user) {
+    //TODO
+}
+
+export async function deleteCommunityUser(communityName, user) {
+    //TODO
+}
+
