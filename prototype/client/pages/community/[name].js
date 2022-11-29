@@ -12,7 +12,7 @@ const CommunityPage = (props) => {
   const { isValid, users } = props
 
   return (
-    <p>Community Name: {name}, this is a {props.isValid}<button onClick={() => console.log(props.users)}>1244</button></p>
+      <p>Community Name: {name}, this is a {props.isValid}<button onClick={() => console.log(props.users)}>1244</button></p>
     )
 }
 

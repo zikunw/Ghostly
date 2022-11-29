@@ -6,6 +6,7 @@ import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 
 import { useRouter } from 'next/router'
+import LoginWarning from "../../components/LoginWarning";
 
 const { Heading, Stack, Box, FormLabel, Input, Center, Badge, Button, Spacer, Card, CardHeader, CardBody } = require("@chakra-ui/react")
 
@@ -73,7 +74,7 @@ const CreateCommunityPage = () => {
             {username && (
                 <form onSubmit={onSubmit}>
                 <Center>
-                    <Card bg="gray.50" mt={5}>
+                    <Card bg="gray.50" mt={5} border="1px">
                         <CardHeader>
                             <Heading>Create Community</Heading>
                         </CardHeader>
@@ -90,7 +91,7 @@ const CreateCommunityPage = () => {
                                 {!isValid && (<Badge colorScheme='red'>Invalid name. Try harder.</Badge>)}
 
                             </Box>
-                            <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid} >
+                            <Button colorScheme='white' variant='outline' type='submit' className="btn-green" disabled={!isValid} >
                                 Submit
                             </Button>
                         </Stack>
@@ -99,7 +100,7 @@ const CreateCommunityPage = () => {
                 </Center>
                 </form>
             )}
-            {!username && (<Heading>Please log in first!</Heading>)}
+            {!username && (<LoginWarning />)}
         </>
     )
 }

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Stack, Button, Avatar, Flex, Spacer, ButtonGroup, Text, Center } from '@chakra-ui/react'
+import { Stack, Button, Avatar, Flex, Spacer, ButtonGroup, Text, Center, Highlight } from '@chakra-ui/react'
 import { useContext } from 'react'
 import { UserContext } from '../lib/context'
 import { auth } from '../lib/firebase'
@@ -38,7 +38,7 @@ const NavBar = () => {
                         </Center>
                         <Center>
                             <Link href={`/user`}>
-                                <Avatar name='User avatar' src={user?.photoURL} />
+                                <Avatar name={username} src={user?.photoURL} />
                             </Link>
                         </Center>
                         <Button colorScheme='gray' variant='solid' onClick={()=>{auth.signOut()}}>

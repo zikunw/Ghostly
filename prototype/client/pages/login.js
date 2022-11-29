@@ -7,9 +7,10 @@ import { UserContext } from '../lib/context'
 
 import { debounce } from "lodash"
 
-import Link from "next/link";
+import NextLink from 'next/link'
+import { Link } from '@chakra-ui/react'
 
-import { Input, Button, Image, Box, Center, Card, CardHeader, Heading, CardBody, Grid, GridItem } from "@chakra-ui/react";
+import { Input, Button, Image, Box, Center, Card, CardHeader, Heading, CardBody, Grid, GridItem, Badge, SimpleGrid, Avatar } from "@chakra-ui/react";
 
 export default function EnterPage({}) {
     const {userData} = useContext(UserContext)
@@ -18,13 +19,15 @@ export default function EnterPage({}) {
     return (
         <main>
             <Center>
-                <Card maxW='md' bg="gray.50" mt="10" p="10">
+                <Card maxW='md' bg="gray.50" mt="10" p="10" mb={5} border="1px">
                     <CardHeader>
-                      <Heading size='md'>Login</Heading>
+                        <Center>
+                            <Heading size='lg'>Login</Heading>
+                        </Center>
                     </CardHeader>
                     <CardBody>
                         {user ? 
-                           !username ? <UsernameForm /> : <SignOutButton username={username}/> 
+                           !username ? <UsernameForm /> : <SignOutButton username={username} userPic={user?.photoURL}/> 
                            : 
                            <SignInButton />
                         }
@@ -57,13 +60,18 @@ function SignInButton() {
 function SignOutButton(props) {
     return (
         <Grid
-            h="200px"
+            minH={200}
+            gap={5}
         >
+            <Center>
+                <Avatar name={props.username} src={props.user?.photoURL} size='xl'/>
+            </Center>
+            
             <Heading>Welcome {props.username}!</Heading>
-            <Button colorScheme='gray' variant='outline' onClick={() => auth.signOut()}>Sign out</Button>
-            <Link href="/" width="100%">
-                <Button colorScheme='gray' variant='outline'>Explore communities</Button>
+            <Link as={NextLink} href="/">
+                <Button colorScheme='white' variant='outline' w="100%">Explore communities</Button>
             </Link>
+            <Button colorScheme='gray' variant='outline' onClick={() => auth.signOut()}>Sign out</Button>
         </Grid>
     )
 }
@@ -130,13 +138,15 @@ function UsernameForm() {
     return (
         !username && (
             <section>
-                <h3>Choose Username</h3>
                 <form onSubmit={onSubmit}>
-                    <Input name="username" placeholder="username" value={formValue} onChange={onChange}/>
-                    <UsernameMessage username={formValue} isValid={isValid} loading={loading} />
-                    <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid}>
-                        Submit
-                    </Button>
+                    <SimpleGrid spacing={2}>
+                        <Heading size="sm">Choose Username</Heading>
+                        <Input name="username" placeholder="username" value={formValue} onChange={onChange}/>
+                        <UsernameMessage username={formValue} isValid={isValid} loading={loading} />
+                        <Button colorScheme='teal' variant='solid' type='submit' className="btn-green" disabled={!isValid} w="100%">
+                            Submit
+                        </Button>
+                    </SimpleGrid>
                 </form>
             </section>
         )
@@ -146,11 +156,11 @@ function UsernameForm() {
 
 function UsernameMessage({ username, isValid, loading }) {
     if (loading) {
-      return <p>Checking...</p>;
+      return <Badge>Checking...</Badge>;
     } else if (isValid) {
-      return <p className="text-success">{username} is available!</p>;
+      return <Badge colorScheme='green'>{username} is available!</Badge>;
     } else if (username && !isValid) {
-      return <p className="text-danger">That username is taken!</p>;
+      return <Badge colorScheme='red'>Username is either taken or invalid.</Badge>;
     } else {
       return <p></p>;
     }

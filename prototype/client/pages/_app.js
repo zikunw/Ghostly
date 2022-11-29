@@ -31,7 +31,11 @@ const theme = extendTheme({
   styles: {
     global: () => ({
       body: {
-        bg: "#E2E8F0",
+        backgroundImage: "radial-gradient(#CCCCCC 20%, #E2E8F0 20%)",
+        backgroundPosition: "0 0",
+        backgroundSize: "10px 10px",
+        height: "200px",
+        width: "100%"
       },
     }),
   },
