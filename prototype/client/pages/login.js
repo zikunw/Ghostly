@@ -21,16 +21,18 @@ export default function EnterPage({}) {
     const [isLargerThan800] = useMediaQuery('(min-width: 1000px)')
 
     return (
-        <main flex='1'>
+        <main flex='1'>   
             <Center>
-                {isLargerThan800 && <Image 
-                    src={"/login-background.png"}
-                    position="absolute"
-                    top="100" 
-                    left="0"
-                    zIndex={0}
-                ></Image>}
                 <Card maxW='md' bg="gray.50" mt="10" p="10" mb={5} border="1px">
+                    <Image 
+                        src={"/logo.png"} 
+                        boxSize="100px"
+                        position="absolute"
+                        left="-70px"
+                        bottom="10px"
+                        zIndex={-1}
+                        className="hvr-skew-backward"
+                    />
                     <CardHeader>
                         <Center>
                             <Heading size='lg'>Login</Heading>

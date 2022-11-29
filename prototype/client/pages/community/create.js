@@ -74,7 +74,7 @@ const CreateCommunityPage = () => {
             {username && (
                 <form onSubmit={onSubmit}>
                 <Center>
-                    <Card bg="gray.50" mt={5} border="1px">
+                    <Card bg="gray.50" mt={5} border="1px" w={360}>
                         <CardHeader>
                             <Heading>Create Community</Heading>
                         </CardHeader>
@@ -86,10 +86,10 @@ const CreateCommunityPage = () => {
                                 <Input
                                   onChange={handleOnChange}
                                   id='community-name'
-                                  placeholder='Please enter the name for the new community.'
+                                  placeholder='Try something catchy.'
                                 />
                                 {isValid && (<Badge colorScheme='green'>This is a valid name!</Badge>)}
-                                {!isValid && (<Badge colorScheme='red'>Invalid name. Try harder.</Badge>)}
+                                {!isValid && (<Badge colorScheme='blue'>Try harder.</Badge>)}
 
                             </Box>
                             <Button colorScheme='white' variant='outline' type='submit' className="btn-green" disabled={!isValid} >

@@ -7,23 +7,31 @@ import { UserContext } from '../lib/context'
 import { useUserData } from '../lib/hooks'
 import Footer from '../components/Footer'
 
+import Head from 'next/head';
+
 function MyApp({ Component, pageProps }) {
   const userData = useUserData()
 
   return (
-    <ChakraProvider theme={theme}>
-      <UserContext.Provider value={{userData}}>
-        <Flex
-          direction="column"
-          minH="100vh"
-        >
-          <NavBar />
-          <Component {...pageProps} />
-          <Spacer />
-          <Footer />
-        </Flex>
-      </UserContext.Provider>
-    </ChakraProvider>
+    <>
+      <Head>
+        <title>Ghostly</title>
+        <link rel="shortcut icon" href="/public/favicon.ico" />
+      </Head>
+      <ChakraProvider theme={theme}>
+        <UserContext.Provider value={{userData}}>
+          <Flex
+            direction="column"
+            minH="100vh"
+          >
+            <NavBar />
+            <Component {...pageProps} />
+            <Spacer />
+            <Footer />
+          </Flex>
+        </UserContext.Provider>
+      </ChakraProvider>
+    </>
     )
 }
 
