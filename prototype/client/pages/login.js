@@ -35,7 +35,7 @@ export default function EnterPage({}) {
                     />
                     <CardHeader>
                         <Center>
-                            <Heading size='lg'>Login</Heading>
+                            <Heading size='lg'>{!username ? "Login" : `Welcome, ${username}!`}</Heading>
                         </Center>
                     </CardHeader>
                     <CardBody>
@@ -80,7 +80,6 @@ function SignOutButton(props) {
                 <Avatar name={props.username} src={props.userPic} size='xl'/>
             </Center>
             
-            <Heading>Welcome {props.username}!</Heading>
             <Link as={NextLink} href="/">
                 <Button colorScheme='white' variant='outline' w="100%">Explore communities</Button>
             </Link>

@@ -1,7 +1,7 @@
 import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
 import { firestore } from "../lib/firebase";
 import { useState, useEffect } from "react";
-import { Heading, Link } from "@chakra-ui/react";
+import { Card, CardHeader, Flex, Heading, Link } from "@chakra-ui/react";
 
 const LIMIT = 10;
 
@@ -14,9 +14,14 @@ const CommunityList = (props) => {
     return (
         <>
             <Heading>Current communities:</Heading>
-            <ul>
-                {communities?.map(community => <Link href={"/community/" + community}><p>{community}</p></Link>)}
-            </ul>
+            <Flex gap={2}>
+                {communities?.map(community => (
+                    <Link href={"/community/" + community}>
+                        <CommunityCard communityName={community} />
+                    </Link>
+                    
+                    ))}
+            </Flex>
         </>
     )
 }
@@ -24,7 +29,13 @@ const CommunityList = (props) => {
 
 
 const CommunityCard = ({communityName}) => {
-
+    return (
+        <Card bg="white">
+            <CardHeader>
+                <Heading size="sm">{communityName}</Heading>
+            </CardHeader>
+        </Card>
+    )
 }
 
 export default CommunityList

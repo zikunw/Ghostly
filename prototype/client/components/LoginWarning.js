@@ -12,8 +12,9 @@ export default function LoginWarning() {
                   justifyContent='center'
                   textAlign='center'
                   p={10}
+                  bg={'white'}
                 >
-                  <AlertIcon boxSize='40px' mr={0} />
+                  <AlertIcon boxSize='40px' mr={0} color="black"/>
                   <AlertTitle mt={4} mb={1} fontSize='lg'>
                     Please log in first!
                   </AlertTitle>

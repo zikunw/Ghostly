@@ -38,7 +38,7 @@ const CreateCommunityPage = () => {
 
     const handleOnChange = (e) => {
         const val = e.target.value
-        const re = /^(?=[a-zA-Z0-9._]{3,15}$)(?!.*[_.]{2})[^_.].*[^_.]$/
+        const re = /^[a-z\-]+$/
         if (val.length < 3) {
             setCommunityName(val)
             setLoading(false)
@@ -47,6 +47,9 @@ const CreateCommunityPage = () => {
         if (re.test(val)) {
             setCommunityName(val);
             setLoading(true);
+            setIsValid(false);
+            console.log(val, "passes")
+        } else {
             setIsValid(false);
         }
     }
@@ -82,17 +85,18 @@ const CreateCommunityPage = () => {
                         <Stack spacing='24px'>
                             <Center><Image src={'/find-friend.png'} boxSize='200px'/></Center>
                             <Box>
-                                <FormLabel htmlFor='community-name'>New community name</FormLabel>
+                                <FormLabel htmlFor='community-name' m={0}>New community name</FormLabel>
                                 <Input
                                   onChange={handleOnChange}
                                   id='community-name'
                                   placeholder='Try something catchy.'
+                                  mb={2}
                                 />
-                                {isValid && (<Badge colorScheme='green'>This is a valid name!</Badge>)}
-                                {!isValid && (<Badge colorScheme='blue'>Try harder.</Badge>)}
+                                {isValid && (<Badge colorScheme='green' w="100%" mb={2}>This is a valid name!</Badge>)}
+                                {!isValid && (<Badge colorScheme='blue' w="100%" mb={2} bg="gray.200" color="black">Try harder.</Badge>)}
 
                             </Box>
-                            <Button colorScheme='white' variant='outline' type='submit' className="btn-green" disabled={!isValid} >
+                            <Button isLoading={loading} loadingText='Checking name' colorScheme='white' variant='outline' type='submit' className="btn-green" disabled={!isValid} >
                                 Submit
                             </Button>
                         </Stack>

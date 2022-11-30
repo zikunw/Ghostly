@@ -50,7 +50,7 @@ const NavBar = () => {
             {username && (
                     <ButtonGroup gap='2'>
                         <Center>
-                            <Text fontSize='xl'>
+                            <Text fontSize='md'>
                                 Hello, {username}.
                             </Text>
                         </Center>
