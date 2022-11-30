@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Ghostly</title>
-        <link rel="shortcut icon" href="/public/favicon.ico" />
+        <link rel="shortcut icon" href="/public/icons/favicon.ico" />
       </Head>
       <ChakraProvider theme={theme}>
         <UserContext.Provider value={{userData}}>

@@ -29,11 +29,6 @@ const NavBar = () => {
                 <Center mr={4}><Text fontSize='4xl' fontWeight='bold' fontFamily='Nanum Pen Script'>Ghostly</Text></Center>
             </Link>
             <ButtonGroup gap="2">
-                <Link href={"/"}>
-                    <Button colorScheme='gray' variant='outline'>
-                            Homepage
-                    </Button>
-                </Link>
                 <Link href={"/community"}>
                     <Button colorScheme='gray' variant='outline'>
                             Join Community
