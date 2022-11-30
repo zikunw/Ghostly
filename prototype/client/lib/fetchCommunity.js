@@ -1,5 +1,6 @@
 import { doc, getDoc, collection, query, getDocs } from "firebase/firestore";
 import { firestore } from "./firebase";
+import axios, * as others from 'axios';
 
 export async function isCommunityExist(name) {
     const ref = doc(firestore, `communities/${name}`)
@@ -31,11 +32,12 @@ export async function addCommunityPosts(commmunityName, postTitle, postType, pos
     //TODO
 }
 
-export async function getYoutubeByURL(url) {
-    //TODO
+export async function getYoutubeByName(name) {
+    const res = await axios.get('http://localhost:3080/api/getvideo', { params: { title: name } });
+    return res.data;
 }
 
-export async function getSpotifyByURL(url) {
+export async function getSpotifyByName(name) {
     //TODO
 }
 
