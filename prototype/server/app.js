@@ -15,6 +15,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//index.js
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+  })
+
 app.get('/api/getbook', async (req, res) => {
     const title = req.query.title
     console.log(`Book requested: ${title}`)
