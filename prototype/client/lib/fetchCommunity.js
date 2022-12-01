@@ -33,7 +33,7 @@ export async function addCommunityPosts(commmunityName, postTitle, postType, pos
 }
 
 export async function getYoutubeByName(name) {
-    const res = await axios.get('http://localhost:3080/api/getvideo', { params: { title: name } });
+    const res = await axios.get('https://ghostlyserver.vercel.app/api/getvideo', { params: { title: name } });
     return res.data;
 }
 
