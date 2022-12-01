@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '../../lib/firebase'
-import { Button, CardHeader, Select, Box, Flex, Card, Center, Heading, Divider, FormControl, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
+import { Textarea, Button, CardHeader, Select, Box, Flex, Card, Center, Heading, Divider, FormControl, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
 
 import { isCommunityExist, getCommunityUsers } from '../../lib/fetchCommunity'
 //TODO
@@ -29,23 +29,20 @@ const CommunityPage = (props) => {
                   >
 
               <CardHeader>
-                <Flex alignItems={"left"}>
-                  <Heading size='md'>Make a new post</Heading>
-                </Flex>
+                <Heading size='md'>Make a new post</Heading>
               </CardHeader>
 
               <FormControl>
-                <FormLabel>Link Type</FormLabel>
-                <Select Placeholder='Select link type'>
+                <Input marginTop="1%" type='text' placeholder="Title" maxLength="30"></Input>
+                <Textarea marginTop="1%" type='text' placeholder="Description"></Textarea>
+                <FormHelperText>Enter a Youtube or Spotify Link to share to this community!</FormHelperText>
+                <Select marginTop="1%" Placeholder='Select link type'>
                   <option>Spotify</option>
                   <option>Youtube</option>
                 </Select>
+                <Input marginTop="1%" type='url' placeholder="Link"></Input>
 
-                <FormLabel marginTop="1%">Link</FormLabel>
-                <Input type='url'></Input>
-                <FormHelperText>Enter a Youtube or Spotify Link to share to this community!</FormHelperText>
-
-                <Button marginTop="1%" colorScheme='blue'>Submit</Button>
+                <Button marginTop="1%" colorScheme='blue'>Post</Button>
               </FormControl>
             </Card>
           </Center>
@@ -53,6 +50,20 @@ const CommunityPage = (props) => {
       </Box>
     )
 }
+
+const PostCard = ({ props }) => {
+  return (
+    <Card bg="white" direction="row" width="100%">
+      <CardHeader>
+        <Link href={"/community/" + communityName}>
+          <Heading size="sm">{communityName}</Heading>
+        </Link>
+      </CardHeader>
+      <Spacer />
+      <Button height="100%">Join</Button>
+    </Card>
+  );
+};
 
 export async function getServerSideProps(context) {
 
