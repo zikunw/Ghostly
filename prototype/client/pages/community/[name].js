@@ -1,7 +1,28 @@
 import { useRouter } from 'next/router'
 import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '../../lib/firebase'
-import { Textarea, Button, CardHeader, Select, Box, Flex, Card, Center, Heading, Divider, FormControl, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Avatar,
+  IconButton,
+  Image,
+  Textarea,
+  Button,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Select,
+  Box,
+  Flex,
+  Card,
+  Center,
+  Heading,
+  Divider,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+  Text
+} from "@chakra-ui/react";
 
 import { isCommunityExist, getCommunityUsers } from '../../lib/fetchCommunity'
 //TODO
@@ -47,21 +68,65 @@ const CommunityPage = (props) => {
             </Card>
           </Center>
         </Flex>
+
+        <PostCard></PostCard>
       </Box>
     )
 }
 
-const PostCard = ({ props }) => {
+const PostCard = ({ }) => {
   return (
-    <Card bg="white" direction="row" width="100%">
-      <CardHeader>
-        <Link href={"/community/" + communityName}>
-          <Heading size="sm">{communityName}</Heading>
-        </Link>
-      </CardHeader>
-      <Spacer />
-      <Button height="100%">Join</Button>
-    </Card>
+    <Center>
+      <Card maxW='md' backgroundColor="white" margin="2%">
+        <CardHeader>
+          <Flex spacing='4'>
+            <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+              <Avatar name='sharon' src='https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c' />
+
+              <Box>
+                <Heading size='sm'>Sharon Zou</Heading> {/** display name */}
+                <Text>sharon</Text> {/** username */}
+              </Box>
+            </Flex>
+            <IconButton
+              variant='ghost'
+              colorScheme='gray'
+              aria-label='See menu'
+            />
+          </Flex>
+        </CardHeader>
+        <CardBody>
+          <Text>
+            New Jeans song is out!
+          </Text> {/** description */}
+        </CardBody>
+        <Image
+          objectFit='cover'
+          src='https://i.ytimg.com/vi/11cta61wi0g/mqdefault.jpg'
+          alt='Chakra UI'
+        />
+
+        {/* <CardFooter
+          justify='space-between'
+          flexWrap='wrap'
+          sx={{
+            '& > button': {
+              minW: '136px',
+            },
+          }}
+        > */}
+          {/* <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
+            Like
+          </Button>
+          <Button flex='1' variant='ghost' leftIcon={<BiChat />}>
+            Comment
+          </Button>
+          <Button flex='1' variant='ghost' leftIcon={<BiShare />}>
+            Share
+          </Button> */}
+        {/* </CardFooter> */}
+      </Card>
+    </Center>
   );
 };
 
