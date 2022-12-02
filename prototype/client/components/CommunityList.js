@@ -19,7 +19,6 @@ const CommunityList = (props) => {
                     <Link href={"/community/" + community}>
                         <CommunityCard communityName={community} />
                     </Link>
-                    
                     ))}
             </Flex>
         </>

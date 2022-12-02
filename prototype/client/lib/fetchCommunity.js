@@ -1,5 +1,6 @@
 import { doc, getDoc, collection, query, getDocs, where } from "firebase/firestore";
 import { firestore } from "./firebase";
+import axios, * as others from 'axios';
 
 
 export async function isCommunityExist(name) {
@@ -33,11 +34,12 @@ export async function addCommunityPosts(commmunityName, postTitle, postType, pos
     //TODO
 }
 
-export async function getYoutubeByURL(url) {
-    //TODO
+export async function getYoutubeByName(name) {
+    const res = await axios.get('https://ghostlyserver.vercel.app/api/getvideo', { params: { title: name } });
+    return res.data;
 }
 
-export async function getSpotifyByURL(url) {
+export async function getSpotifyByName(name) {
     //TODO
 }
 
