@@ -1,5 +1,6 @@
-import { doc, getDoc, collection, query, getDocs } from "firebase/firestore";
+import { doc, getDoc, collection, query, getDocs, where } from "firebase/firestore";
 import { firestore } from "./firebase";
+
 
 export async function isCommunityExist(name) {
     const ref = doc(firestore, `communities/${name}`)
@@ -10,7 +11,8 @@ export async function isCommunityExist(name) {
 }
 
 export async function searchCommunity(name) {
-    //TODO
+    
+
 }
 
 export async function getCommunityUsers(name) {
