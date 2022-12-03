@@ -2,7 +2,15 @@ import { Heading, Button, Input, Text } from "@chakra-ui/react"
 import { result } from "lodash"
 import { useState, useContext } from "react"
 import { UserContext } from "../lib/context"
-import { getYoutubeByName, getYoutubeById, addCommunityPosts, deleteCommunityPosts, getCommunityPosts } from "../lib/fetchCommunity"
+import { 
+    getYoutubeByName, 
+    getYoutubeById, 
+    addCommunityPosts, 
+    deleteCommunityPosts, 
+    getCommunityPosts, 
+    addCommunityUser,
+    deleteCommunityUser
+} from "../lib/fetchCommunity"
 
 export default function TestAPIPage() {
 
@@ -76,12 +84,30 @@ export default function TestAPIPage() {
           });
     }
 
+    // Add a user to a community
+    async function handleCommunityAddUser(e) {
+        e.preventDefault;
+        const uid = user.uid;
+        const communityName = "coder";
+        await addCommunityUser(communityName, uid, username);
+    }
+
+    // Delete a user from a community
+    async function handleCommunityDeleteUser(e) {
+        e.preventDefault;
+        const uid = user.uid;
+        const communityName = "coder";
+        await deleteCommunityUser(communityName, uid);
+    }
+
     return(
         <>
             <Heading>Test</Heading>
             <Button onClick={handlePostSubmission}>Test submit post</Button>
             <Button onClick={handlePostDeletion}>Test delete post</Button>
             <Button onClick={handleGetCommunityPosts}>Get community post</Button>
+            <Button onClick={handleCommunityAddUser}>Add user to a community</Button>
+            <Button onClick={handleCommunityDeleteUser}>Delete user from a community</Button>
             <form action="/getbook" method="GET">
                 <Input
                     value={title}

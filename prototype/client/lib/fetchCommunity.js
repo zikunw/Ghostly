@@ -1,4 +1,4 @@
-import { doc, getDoc, collection, query, getDocs, addDoc, serverTimestamp, updateDoc, where } from "firebase/firestore";
+import { doc, getDoc, collection, query, getDocs, addDoc, serverTimestamp, updateDoc, where, setDoc, deleteDoc } from "firebase/firestore";
 import { firestore } from "./firebase";
 import axios, * as others from 'axios';
 
@@ -86,11 +86,48 @@ export async function deleteCommunityPosts(communityName, postId, uid) {
     console.log("Deleted post successfully!");
 }
 
-export async function addCommunityUser(communityName, user) {
-    //TODO
+export async function addCommunityUser(communityName, uid, username) {
+    // Check if the community exists
+    const communityRef = doc(firestore, `communities/${communityName}`);
+    const communitySnap = await getDoc(communityRef);
+
+    if (!communitySnap.exists()) {
+        console.log("Error: community does not exists.");
+        return;
+    }
+
+    // Add user to the community
+    const userRef = doc(firestore, `communities/${communityName}/users/${uid}`);
+    await setDoc(userRef, {
+        username: username
+    })
+
+    console.log("Successfully added a user!")
+    
 }
 
-export async function deleteCommunityUser(communityName, user) {
-    //TODO
+export async function deleteCommunityUser(communityName, uid) {
+    // Check if the community exists
+    const communityRef = doc(firestore, `communities/${communityName}`);
+    const communitySnap = await getDoc(communityRef);
+
+    if (!communitySnap.exists()) {
+        console.log("Error: community does not exists.");
+        return;
+    }
+
+    // Check if the user exists in the community
+    const userRef = doc(firestore, `communities/${communityName}/users/${uid}`);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+        console.log("Error: user does not exists under this community.");
+        return;
+    }
+
+    // Remove user from the collection
+    await deleteDoc(userRef);
+
+    console.log("Successfully deleted user!")
+
 }
 
