@@ -24,10 +24,20 @@ import {
   Text
 } from "@chakra-ui/react";
 
-import { isCommunityExist, getCommunityUsers } from '../../lib/fetchCommunity'
+import { isCommunityExist, getCommunityUsers, addCommunityPosts } from '../../lib/fetchCommunity'
+
+import { useState, useContext } from 'react';
+import { UserContext } from '../../lib/context';
+
+import LoginWarning from '../../components/LoginWarning';
+
+import { getYoutubeById } from '../../lib/fetchCommunity';
 //TODO
 
 const CommunityPage = (props) => {
+  const {userData} = useContext(UserContext)
+  const {user, username} = userData
+
   const router = useRouter()
   const { name } = router.query
   const { isValid, users } = props
@@ -39,34 +49,10 @@ const CommunityPage = (props) => {
           <Center>
           <Heading size="2xl" as="u">{name}</Heading>
           </Center>
+          {user !== null ? 
+            <PostForm communityName={name}/> : <LoginWarning />}
           
-          <Center>
-            <Card bg="white" 
-                  width="50%"
-                  overflow='hidden'
-                  variant='outline'
-                  margin="2%"
-                  padding="2%"
-                  >
-
-              <CardHeader>
-                <Heading size='md'>Make a new post</Heading>
-              </CardHeader>
-
-              <FormControl>
-                <Input marginTop="1%" type='text' placeholder="Title" maxLength="30"></Input>
-                <Textarea marginTop="1%" type='text' placeholder="Description"></Textarea>
-                <FormHelperText>Enter a Youtube or Spotify Link to share to this community!</FormHelperText>
-                <Select marginTop="1%" placeholder='Select link type'>
-                  <option>Spotify</option>
-                  <option>Youtube</option>
-                </Select>
-                <Input marginTop="1%" type='url' placeholder="Link"></Input>
-
-                <Button marginTop="1%" colorScheme='blue'>Post</Button>
-              </FormControl>
-            </Card>
-          </Center>
+          
         </Flex>
 
         {/* display the posts */}
@@ -89,12 +75,125 @@ const CommunityPage = (props) => {
     )
 }
 
+const PostForm = ({communityName}) => {
+  const [postTitle, setPostTitle] = useState("");
+  const [postDescription, setPostDescription] = useState("");
+  const [postURL, setPostURL] = useState("");
+  const [postType, setPostType] = useState("youtube");
+
+  const isError = postTitle === '' || postDescription === '' || postURL === ''
+
+  const [previewResult, setPreviewResult] = useState("");
+  const [hasPreview, setHasPreview] = useState(false);
+
+  const {userData} = useContext(UserContext)
+  const {user, username} = userData
+
+  // Sumbit post
+  async function handlePostSubmission(e) {
+    e.preventDefault();
+    if (isError) {
+      console.log("please fill in every field.");
+      return;
+    }
+    await addCommunityPosts(
+        communityName, 
+        postTitle, 
+        postType, 
+        postURL, 
+        postDescription, 
+        user.uid);
+    window.location.reload(false);
+  }
+
+  // Handle post type change
+  const  handlePostTitleOnChange = (e) => setPostTitle(e.target.value);
+  const  handlePostDescriptionOnChange = (e) => setPostDescription(e.target.value);
+  const  handlePostURLOnChange = (e) => setPostURL(e.target.value);
+  const  handlePostTypeOnChange = (e) => setPostType(e.target.value);
+
+  // Handle preview post information
+  const handlePreview = async (e) => {
+    e.preventDefault();
+
+    if (postType === 'youtube') {
+      
+      const videoRegex = postURL.match('[?&]v=([^&]+)');
+      // If the url is not valid
+      if (videoRegex === null) {
+        return;
+      }
+      const videoId = videoRegex[1]
+      const results = await getYoutubeById(videoId);
+      console.log(JSON.stringify(results.items[0].snippet.thumbnails.high))
+      if (results.items.length > 0) {
+        //setHasPreview(true);
+        //setVideoTitle(results.items[0].snippet.title)
+        //setVideoURL("https://www.youtube.com/watch?v=" + results.items[0].id);
+        //setVideoThumbnail(JSON.stringify(results.items[0].snippet.thumbnails.high));
+        //setVideoDescription(results.items[0].snippet.description);
+        setPreviewResult(
+          <PostCard
+            userDisplayName={username}
+            username={user.displayName}
+            userPic={user.photoURL}
+            description={postDescription}
+            thumbnail={results.items[0].snippet.thumbnails.high.url}
+          />
+        )
+      } else {
+        setHasPreview(false);
+      }
+
+
+    } else if (postType === 'spotify') {
+
+    }
+  }
+
+  return (
+    <Center>
+            <Card bg="white" 
+                  width="50%"
+                  overflow='hidden'
+                  variant='outline'
+                  margin="2%"
+                  padding="2%"
+                  >
+
+              <CardHeader>
+                <Heading size='md'>Make a new post</Heading>
+              </CardHeader>
+
+              <FormControl>
+                <Input marginTop="1%" type='text' placeholder="Title" maxLength="30" onChange={handlePostTitleOnChange}></Input>
+                <Textarea marginTop="1%" type='text' placeholder="Description" onChange={handlePostDescriptionOnChange}></Textarea>
+
+                <FormHelperText>Enter a Youtube or Spotify Link to share to this community!</FormHelperText>
+                <Flex gap={1}>
+                  <Select marginTop="1%" w='150px' onChange={handlePostTypeOnChange} value={postType}>
+                    <option key='spotify' value='spotify'>Spotify</option>
+                    <option key='youtube' value='youtube'>Youtube</option>
+                  </Select>
+                  <Input flex='1' marginTop="1%" type='url' placeholder="Link" onChange={handlePostURLOnChange}></Input>
+                  <Button marginTop="1%" onClick={handlePreview}>Preview</Button>
+                </Flex>
+                
+                {previewResult}
+
+                <Button marginTop="1%" colorScheme='blue' onClick={handlePostSubmission}>Post</Button>
+              </FormControl>
+            </Card>
+          </Center>
+  )
+}
+
 const PostCard = ( props ) => {
   console.log(props)
   return (
     <Center>
       <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
-        <CardHeader>
+        <CardHeader pb={2}>
           <Flex spacing='4'>
             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
               <Avatar name={props.username} src={props.userPic} />
@@ -111,16 +210,18 @@ const PostCard = ( props ) => {
             />
           </Flex>
         </CardHeader>
-        <CardBody>
+        <CardBody pt={2}>
           <Text>
             {props.description}
           </Text> {/** description */}
-        </CardBody>
-        <Image
+          <Image
           objectFit='cover'
           src={props.thumbnail}
           alt='Chakra UI'
+          width="480px"
+          height="360px"
         />
+        </CardBody>
       </Card>
     </Center>
   );

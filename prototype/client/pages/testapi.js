@@ -43,7 +43,7 @@ export default function TestAPIPage() {
         e.preventDefault();
         const videoId = title.match('[?&]v=([^&]+)')[1];
         const results = await getYoutubeById(videoId);
-        //console.log(results);
+        console.log(results);
         if (results.items.length > 0) {
             setFoundVideo(true);
             setVideoTitle(results.items[0].snippet.title)
