@@ -1,0 +1,4 @@
+As a user, I want to join communities that I am interested in to see related spotify and youtube media.
+The user is presented with some communities rightaway on the homepage, or they can click onto the join communities page
+to search for a specific community. Once they search for a community, there is a join buttonn they can click and 
+now be apart of that community. If the user is not logged in, they will be redirected to the login page. 
