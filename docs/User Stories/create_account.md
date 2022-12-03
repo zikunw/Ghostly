@@ -1,2 +1,2 @@
-As a new user, I want to create an account in order to access and save my Youtube and Spotify information. On a “create user” page, the user will have access to a form that asks for a username and password. The web application will authenticate the user through a 6-digit code in their email. If the user’s 6-digit code is correct, the user will be created in the backend and the user will be redirected to the home page and logged in. 
+As a new user, I want to create an account in order to have a user profile and be able to join communities and make posts.
 
