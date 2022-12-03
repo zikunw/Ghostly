@@ -10,7 +10,8 @@ import {
     getCommunityPosts, 
     addCommunityUser,
     deleteCommunityUser,
-    searchCommunity
+    searchCommunity,
+    getSpotifyById
 } from "../lib/fetchCommunity"
 
 export default function TestAPIPage() {
@@ -48,9 +49,25 @@ export default function TestAPIPage() {
             setVideoTitle(results.items[0].snippet.title)
             setVideoURL("https://www.youtube.com/watch?v=" + results.items[0].id);
             setVideoThumbnail(JSON.stringify(results.items[0].snippet.thumbnails.high));
-            setVideoDescription(results.items[0].snippet.description)
+            setVideoDescription(results.items[0].snippet.description);
         } else {
             setFoundVideo(false);
+        }
+    }
+
+    //get song by url
+    async function handleSearchSongByUrl(e) {
+        e.preventDefault();
+        const songId = title.match('^(https:\/\/open.spotify.com\/track\/|spotify:user:spotify:playlist:)([a-zA-Z0-9]+)(.*)$')[2];
+        const results = await getSpotifyById(songId);
+        //console.log(results)
+        if (results.error) {
+            setFoundVideo(false);
+        } else {
+            setFoundVideo(true);
+            setVideoTitle(results.album.name)
+            setVideoURL(results.album.href);
+            setVideoThumbnail(JSON.stringify(results.album.images[0]));
         }
     }
 
@@ -129,7 +146,8 @@ export default function TestAPIPage() {
                     onChange={e => setTitle(e.target.value)}
                     bg="white"
                 ></Input>
-                    <Button onClick={handleSearchVideoByUrl}>Search</Button>        
+                    <Button onClick={handleSearchVideoByUrl}>Search video</Button>        
+                    <Button onClick={handleSearchSongByUrl}>Search song</Button>
             </form>
             <Text>{foundVideo}</Text>
             <Text>{videoTitle}</Text>

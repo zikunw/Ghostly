@@ -76,8 +76,9 @@ export async function getYoutubeById(id) {
     return res.data;
 }
 
-export async function getSpotifyByName(name) {
-    //TODO
+export async function getSpotifyById(id) {
+    const res = await axios.get(`${BACKEND_URL}/api/getsongbyid`, { params: { songId: id } });
+    return res.data;
 }
 
 export async function deleteCommunityPosts(communityName, postId, uid) {
