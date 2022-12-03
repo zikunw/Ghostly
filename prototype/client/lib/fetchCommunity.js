@@ -21,10 +21,10 @@ export async function searchCommunity(name) {
     const communitiesRef = collection(firestore, 'communities');
     const q = query(communitiesRef, where("__name__", '>=', name), limit(5));
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-      });
+    //querySnapshot.forEach((doc) => {
+    //    // doc.data() is never undefined for query doc snapshots
+    //    console.log(doc.id, " => ", doc.data());
+    //  });
     //let matchingCommunities = []
     //getDocs(colRef)
     //    .then((snapshot) => {
@@ -36,7 +36,7 @@ export async function searchCommunity(name) {
     //        )
     //    })
 
-    return []
+    return querySnapshot;
 }
 
 export async function getCommunityUsers(name) {

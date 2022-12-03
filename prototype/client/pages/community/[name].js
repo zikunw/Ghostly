@@ -21,7 +21,8 @@ import {
   FormHelperText,
   FormLabel,
   Input,
-  Text
+  Text,
+  Badge
 } from "@chakra-ui/react";
 
 import { isCommunityExist, getCommunityUsers, addCommunityPosts } from '../../lib/fetchCommunity'
@@ -181,7 +182,8 @@ const PostForm = ({communityName}) => {
                 
                 {previewResult}
 
-                <Button marginTop="1%" colorScheme='blue' onClick={handlePostSubmission}>Post</Button>
+                <Button marginTop="1%" colorScheme='blue' onClick={handlePostSubmission} w="100%">Post</Button>
+                {isError && <Badge colorScheme='gray'>Please fill in all the fields.</Badge>}
               </FormControl>
             </Card>
           </Center>
