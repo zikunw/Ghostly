@@ -1,4 +1,8 @@
-import { doc, getDoc, collection, query, getDocs, addDoc, serverTimestamp, updateDoc, where, setDoc, deleteDoc, getFirestore } from "firebase/firestore";
+import { 
+    doc, getDoc, collection, query, getDocs, 
+    addDoc, serverTimestamp, updateDoc, where, 
+    setDoc, deleteDoc, getFirestore, limit
+} from "firebase/firestore";
 import { firestore } from "./firebase";
 import axios, * as others from 'axios';
 
@@ -15,7 +19,7 @@ export async function isCommunityExist(name) {
 
 export async function searchCommunity(name) {
     const communitiesRef = collection(firestore, 'communities');
-    const q = query(communitiesRef, where("__name__", '>=', name));
+    const q = query(communitiesRef, where("__name__", '>=', name), limit(5));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots

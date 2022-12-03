@@ -1,4 +1,4 @@
-import { Heading, Button, Input, Text } from "@chakra-ui/react"
+import { Heading, Button, Input, Text, Flex, HStack } from "@chakra-ui/react"
 import { result } from "lodash"
 import { useState, useContext } from "react"
 import { UserContext } from "../lib/context"
@@ -113,12 +113,16 @@ export default function TestAPIPage() {
     return(
         <>
             <Heading>Test</Heading>
-            <Button onClick={handlePostSubmission}>Test submit post</Button>
-            <Button onClick={handlePostDeletion}>Test delete post</Button>
-            <Button onClick={handleGetCommunityPosts}>Get community post</Button>
-            <Button onClick={handleCommunityAddUser}>Add user to a community</Button>
-            <Button onClick={handleCommunityDeleteUser}>Delete user from a community</Button>
-            <Button onClick={handleSearchCommunity}>Search community by name</Button>
+            <Text>(most result in console.log)</Text>
+            <HStack>
+                <Button onClick={handlePostSubmission}>Test submit post</Button>
+                <Button onClick={handlePostDeletion}>Test delete post</Button>
+                <Button onClick={handleGetCommunityPosts}>Get community post</Button>
+                <Button onClick={handleCommunityAddUser}>Add user to a community</Button>
+                <Button onClick={handleCommunityDeleteUser}>Delete user from a community</Button>
+                <Button onClick={handleSearchCommunity}>Search community by name</Button>
+            </HStack>
+            
             <form action="/getbook" method="GET">
                 <Input
                     value={title}
