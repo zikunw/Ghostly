@@ -25,7 +25,7 @@ export const PostCard = ( props ) => {
     console.log(props)
     return (
       <Center>
-        <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
+        <Card maxW='md' backgroundColor="white" width="100%">
           <CardHeader>
             <Flex spacing='4'>
               <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
