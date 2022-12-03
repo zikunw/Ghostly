@@ -25,6 +25,7 @@ import {
 } from "@chakra-ui/react";
 
 import { isCommunityExist, getCommunityUsers } from '../../lib/fetchCommunity'
+import { PostCard} from '../../components/PostCard'
 //TODO
 
 const CommunityPage = (props) => {
@@ -68,7 +69,6 @@ const CommunityPage = (props) => {
             </Card>
           </Center>
         </Flex>
-
         {/* display the posts */}
         <PostCard userDisplayName="Sharon Zou"
                   username="sharonzou"
@@ -76,62 +76,54 @@ const CommunityPage = (props) => {
                   description="this is new jeans' new comeback video"
                   thumbnail="https://i.ytimg.com/vi/js1CtxSY38I/mqdefault.jpg"
         />
-
-
-        {/* Display users */}
-        {/* <Card maxW='sm' bg="white">
-          <Heading size='m' as="b">Users</Heading>
-          <CardBody>
-            <User/>
-          </CardBody>
-        </Card> */}
       </Box>
+
     )
 }
 
-const PostCard = ( props ) => {
-  console.log(props)
-  return (
-    <Center>
-      <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
-        <CardHeader>
-          <Flex spacing='4'>
-            <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-              <Avatar name={props.username} src={props.userPic} />
+// const PostCard = ( props ) => {
+//   console.log(props)
+//   return (
+//     <Center>
+//       <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
+//         <CardHeader>
+//           <Flex spacing='4'>
+//             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+//               <Avatar name={props.username} src={props.userPic} />
 
-              <Box>
-                <Heading size='sm'>{props.userDisplayName}</Heading> {/** display name */}
-                <Text>{props.username}</Text> {/** username */}
-              </Box>
-            </Flex>
-            <IconButton
-              variant='ghost'
-              colorScheme='gray'
-              aria-label='See menu'
-            />
-          </Flex>
-        </CardHeader>
-        <CardBody>
-          <Text>
-            {props.description}
-          </Text> {/** description */}
-        </CardBody>
-        <Image
-          objectFit='cover'
-          src={props.thumbnail}
-          alt='Chakra UI'
-        />
-      </Card>
-    </Center>
-  );
-};
+//               <Box>
+//                 <Heading size='sm'>{props.userDisplayName}</Heading> {/** display name */}
+//                 <Text>{props.username}</Text> {/** username */}
+//               </Box>
+//             </Flex>
+//             <IconButton
+//               variant='ghost'
+//               colorScheme='gray'
+//               aria-label='See menu'
+//             />
+//           </Flex>
+//         </CardHeader>
+//         <CardBody>
+//           <Text>
+//             {props.description}
+//           </Text> {/** description */}
+//         </CardBody>
+//         <Image
+//           objectFit='cover'
+//           src={props.thumbnail}
+//           alt='Chakra UI'
+//         />
+//       </Card>
+//     </Center>
+//   );
+// };
 
-const User = ({}) => {
+const User = (props) => {
   return (
-    <Flex direction="row">
-      <Avatar name='sharon' src='https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c' />
+    <Flex direction="row" >
+      <Avatar name={props.username} src={props.userPic} />
       <Center>
-      <Text marginLeft="1%" width="100%">Sharon Zou</Text>
+      <Text marginLeft="1%" width="100%">{props.userDisplayName}</Text>
       </Center>
     </Flex>
   )
