@@ -1,8 +1,9 @@
-import { doc, getDoc, collection, query, getDocs, addDoc, serverTimestamp, updateDoc, where, setDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, getDocs, addDoc, serverTimestamp, updateDoc, where, setDoc, deleteDoc, getFirestore } from "firebase/firestore";
 import { firestore } from "./firebase";
 import axios, * as others from 'axios';
 
 const BACKEND_URL = "http://localhost:3080"
+
 
 export async function isCommunityExist(name) {
     const ref = doc(firestore, `communities/${name}`)
@@ -13,7 +14,19 @@ export async function isCommunityExist(name) {
 }
 
 export async function searchCommunity(name) {
-    //TODO
+    const db = getFirestore()
+    const colRef = collection(db, 'communities')
+    let matchingCommunities = []
+    getDocs(colRef)
+        .then((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                if (doc.getString('name').includes(name)) {
+                    matchingCommunities.push(doc)
+                }
+            }
+            )
+        })
+    return matchingCommunities
 }
 
 export async function getCommunityUsers(name) {
