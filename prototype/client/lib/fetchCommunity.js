@@ -17,6 +17,13 @@ export async function isCommunityExist(name) {
     return isValid
 }
 
+export async function getUserInfo(uid) {
+    const ref = doc(firestore, `users/${uid}`);
+    const docSnap = await getDoc(ref);
+
+    return docSnap.data();
+}
+
 export async function searchCommunity(name) {
     const communitiesRef = collection(firestore, 'communities');
     const q = query(communitiesRef, where("__name__", '>=', name), limit(5));
@@ -53,15 +60,23 @@ export async function getCommunityPosts(name) {
     return querySnapshot;
 }
 
-export async function addCommunityPosts(communityName, postTitle, postType, postURL, postContent, postUser) {
+export async function addCommunityPosts(
+    communityName, postTitle, postType, 
+    postURL, postContent, postUid, postUsername,
+    postDisplayName, postUserProfile, thumbnail
+    ) {
     const communityPostRef = collection(firestore, `communities/${communityName}/posts`);
     const docRef = await addDoc(communityPostRef, {
         title: postTitle,
         type: postType,
         url: postURL,
         content: postContent,
-        user: postUser,
+        user: postUid,
+        username: postUsername,
+        displayName: postDisplayName,
+        userProfile: postUserProfile,
         isDeleted: false,
+        thumbnail: thumbnail,
         timestamp: serverTimestamp()
     })
 }

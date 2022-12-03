@@ -68,7 +68,7 @@ app.get('/api/getsongbyid', async (req, res) => {
         );
     const myJson = await response.json();
 
-    res.json(myJson)
+    res.json(myJson);
 })
   
 app.listen(PORT, (error) =>{

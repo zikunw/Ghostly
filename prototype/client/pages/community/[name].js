@@ -22,10 +22,12 @@ import {
   FormLabel,
   Input,
   Text,
-  Badge
+  Badge,
+  Stack,
+  Link
 } from "@chakra-ui/react";
 
-import { isCommunityExist, getCommunityUsers, addCommunityPosts } from '../../lib/fetchCommunity'
+import { isCommunityExist, getCommunityUsers, addCommunityPosts, getCommunityPosts, getUserInfo } from '../../lib/fetchCommunity'
 
 import { useState, useContext } from 'react';
 import { UserContext } from '../../lib/context';
@@ -41,7 +43,7 @@ const CommunityPage = (props) => {
 
   const router = useRouter()
   const { name } = router.query
-  const { isValid, users } = props
+  const { isValid, users, postList } = props
 
   return (
       <Box>
@@ -57,12 +59,13 @@ const CommunityPage = (props) => {
         </Flex>
 
         {/* display the posts */}
-        <PostCard userDisplayName="Sharon Zou"
+        {/* <PostCard userDisplayName="Sharon Zou"
                   username="sharonzou"
                   userPic="https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c"
                   description="this is new jeans' new comeback video"
                   thumbnail="https://i.ytimg.com/vi/js1CtxSY38I/mqdefault.jpg"
-        />
+          /> */}
+        <PostCardList postList={postList}/>
 
 
         {/* Display users */}
@@ -93,17 +96,23 @@ const PostForm = ({communityName}) => {
   // Sumbit post
   async function handlePostSubmission(e) {
     e.preventDefault();
+    const videoRegex = postURL.match('[?&]v=([^&]+)');
+    // If the url is not valid
+    if (videoRegex === null) {
+      alert("invalid url")
+      return;
+    }
     if (isError) {
       console.log("please fill in every field.");
       return;
     }
+    const videoId = videoRegex[1]
+    const results = await getYoutubeById(videoId);
+
     await addCommunityPosts(
-        communityName, 
-        postTitle, 
-        postType, 
-        postURL, 
-        postDescription, 
-        user.uid);
+      communityName, postTitle, postType, 
+      postURL, postDescription, user.uid, username,
+      user.displayName, user.photoURL, results.items[0].snippet.thumbnails.high.url);
     window.location.reload(false);
   }
 
@@ -183,15 +192,38 @@ const PostForm = ({communityName}) => {
                 {previewResult}
 
                 <Button marginTop="1%" colorScheme='blue' onClick={handlePostSubmission} w="100%">Post</Button>
-                {isError && <Badge colorScheme='gray'>Please fill in all the fields.</Badge>}
+                {isError && <Badge colorScheme='gray'>Invalid form.</Badge>}
               </FormControl>
             </Card>
           </Center>
   )
 }
 
+const PostCardList = ({postList}) => {
+  return (
+    <Stack spacing={8} direction='row'>
+      {postList.map((doc) => {
+          const {content, displayName, title, type, url, user, userProfile, username, thumbnail} = doc;
+          return(
+            <Link  href={url} isExternal>
+              <PostCard
+                userDisplayName={displayName}
+                username={username}
+                userPic={userProfile}
+                description={content}
+                thumbnail={thumbnail}
+              />
+            </Link>
+            
+          )
+      })}
+    </Stack>
+  )
+
+}
+
 const PostCard = ( props ) => {
-  console.log(props)
+  //console.log(props)
   return (
     <Center>
       <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
@@ -246,11 +278,35 @@ export async function getServerSideProps(context) {
 
   const isValid = await isCommunityExist(name);
   const users = await getCommunityUsers(name);
+  const postsInObject = await getCommunityPosts(name);
+  const postList = []
+  
+  postsInObject.forEach(async (rawdoc) => {
+    const doc = rawdoc.data();
+
+    postList.push({
+      content: doc.content,
+      displayName: doc.displayName,
+      title: doc.title,
+      type: doc.type,
+      url: doc.url,
+      user: doc.user,
+      userProfile: doc.userProfile,
+      username: doc.username,
+      thumbnail: doc.thumbnail
+    });
+    
+  })
+
+  console.log(postList)
+
+  
 
   return {
       props: { 
         isValid: isValid,
         users: JSON.stringify(users),
+        postList: postList,
     }, // will be passed to the page component as props
   };
 }
