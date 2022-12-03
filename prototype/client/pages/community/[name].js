@@ -57,7 +57,7 @@ const CommunityPage = (props) => {
                 <Input marginTop="1%" type='text' placeholder="Title" maxLength="30"></Input>
                 <Textarea marginTop="1%" type='text' placeholder="Description"></Textarea>
                 <FormHelperText>Enter a Youtube or Spotify Link to share to this community!</FormHelperText>
-                <Select marginTop="1%" Placeholder='Select link type'>
+                <Select marginTop="1%" placeholder='Select link type'>
                   <option>Spotify</option>
                   <option>Youtube</option>
                 </Select>
