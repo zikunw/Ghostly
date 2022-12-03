@@ -14,19 +14,25 @@ export async function isCommunityExist(name) {
 }
 
 export async function searchCommunity(name) {
-    const db = getFirestore()
-    const colRef = collection(db, 'communities')
-    let matchingCommunities = []
-    getDocs(colRef)
-        .then((snapshot) => {
-            snapshot.docs.forEach((doc) => {
-                if (doc.getString('name').includes(name)) {
-                    matchingCommunities.push(doc)
-                }
-            }
-            )
-        })
-    return matchingCommunities
+    const communitiesRef = collection(firestore, 'communities');
+    const q = query(communitiesRef, where("__name__", '>=', name));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+      });
+    //let matchingCommunities = []
+    //getDocs(colRef)
+    //    .then((snapshot) => {
+    //        snapshot.docs.forEach((doc) => {
+    //            if (doc.getString('name').includes(name)) {
+    //                matchingCommunities.push(doc)
+    //            }
+    //        }
+    //        )
+    //    })
+
+    return []
 }
 
 export async function getCommunityUsers(name) {

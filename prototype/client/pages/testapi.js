@@ -9,7 +9,8 @@ import {
     deleteCommunityPosts, 
     getCommunityPosts, 
     addCommunityUser,
-    deleteCommunityUser
+    deleteCommunityUser,
+    searchCommunity
 } from "../lib/fetchCommunity"
 
 export default function TestAPIPage() {
@@ -100,6 +101,15 @@ export default function TestAPIPage() {
         await deleteCommunityUser(communityName, uid);
     }
 
+    // Search community
+    async function handleSearchCommunity(e) {
+        e.preventDefault;
+        const searchName = "fdfa";
+        const result = await searchCommunity(searchName);
+
+        console.log(result);
+    }
+
     return(
         <>
             <Heading>Test</Heading>
@@ -108,6 +118,7 @@ export default function TestAPIPage() {
             <Button onClick={handleGetCommunityPosts}>Get community post</Button>
             <Button onClick={handleCommunityAddUser}>Add user to a community</Button>
             <Button onClick={handleCommunityDeleteUser}>Delete user from a community</Button>
+            <Button onClick={handleSearchCommunity}>Search community by name</Button>
             <form action="/getbook" method="GET">
                 <Input
                     value={title}
