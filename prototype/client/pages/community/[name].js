@@ -70,31 +70,38 @@ const CommunityPage = (props) => {
         </Flex>
 
         {/* display the posts */}
-        <PostCard></PostCard>
+        <PostCard userDisplayName="Sharon Zou"
+                  username="sharonzou"
+                  userPic="https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c"
+                  description="this is new jeans' new comeback video"
+                  thumbnail="https://i.ytimg.com/vi/js1CtxSY38I/mqdefault.jpg"
+        />
 
 
         {/* Display users */}
-        <Card maxW='sm'>
+        {/* <Card maxW='sm' bg="white">
+          <Heading size='m' as="b">Users</Heading>
           <CardBody>
-            {/* <User/> */}
+            <User/>
           </CardBody>
-        </Card>
+        </Card> */}
       </Box>
     )
 }
 
-const PostCard = ({ }) => {
+const PostCard = ( props ) => {
+  console.log(props)
   return (
     <Center>
       <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
         <CardHeader>
           <Flex spacing='4'>
             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-              <Avatar name='sharon' src='https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c' />
+              <Avatar name={props.username} src={props.userPic} />
 
               <Box>
-                <Heading size='sm'>Sharon Zou</Heading> {/** display name */}
-                <Text>sharon</Text> {/** username */}
+                <Heading size='sm'>{props.userDisplayName}</Heading> {/** display name */}
+                <Text>{props.username}</Text> {/** username */}
               </Box>
             </Flex>
             <IconButton
@@ -106,34 +113,14 @@ const PostCard = ({ }) => {
         </CardHeader>
         <CardBody>
           <Text>
-            New Jeans song is out!
+            {props.description}
           </Text> {/** description */}
         </CardBody>
         <Image
           objectFit='cover'
-          src='https://i.ytimg.com/vi/11cta61wi0g/mqdefault.jpg'
+          src={props.thumbnail}
           alt='Chakra UI'
         />
-
-        {/* <CardFooter
-          justify='space-between'
-          flexWrap='wrap'
-          sx={{
-            '& > button': {
-              minW: '136px',
-            },
-          }}
-        > */}
-          {/* <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
-            Like
-          </Button>
-          <Button flex='1' variant='ghost' leftIcon={<BiChat />}>
-            Comment
-          </Button>
-          <Button flex='1' variant='ghost' leftIcon={<BiShare />}>
-            Share
-          </Button> */}
-        {/* </CardFooter> */}
       </Card>
     </Center>
   );
@@ -143,7 +130,9 @@ const User = ({}) => {
   return (
     <Flex direction="row">
       <Avatar name='sharon' src='https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c' />
-      <Text>Sharon Zou</Text>
+      <Center>
+      <Text marginLeft="1%" width="100%">Sharon Zou</Text>
+      </Center>
     </Flex>
   )
 }
