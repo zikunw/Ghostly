@@ -69,7 +69,16 @@ const CommunityPage = (props) => {
           </Center>
         </Flex>
 
+        {/* display the posts */}
         <PostCard></PostCard>
+
+
+        {/* Display users */}
+        <Card maxW='sm'>
+          <CardBody>
+            {/* <User/> */}
+          </CardBody>
+        </Card>
       </Box>
     )
 }
@@ -77,7 +86,7 @@ const CommunityPage = (props) => {
 const PostCard = ({ }) => {
   return (
     <Center>
-      <Card maxW='md' backgroundColor="white" margin="2%">
+      <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
         <CardHeader>
           <Flex spacing='4'>
             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
@@ -129,6 +138,15 @@ const PostCard = ({ }) => {
     </Center>
   );
 };
+
+const User = ({}) => {
+  return (
+    <Flex direction="row">
+      <Avatar name='sharon' src='https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c' />
+      <Text>Sharon Zou</Text>
+    </Flex>
+  )
+}
 
 export async function getServerSideProps(context) {
 
