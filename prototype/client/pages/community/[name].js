@@ -135,7 +135,7 @@ const PostForm = ({communityName}) => {
       }
       const videoId = videoRegex[1]
       const results = await getYoutubeById(videoId);
-      console.log(JSON.stringify(results.items[0].snippet.thumbnails.high))
+      console.log(results)
       if (results.items.length > 0) {
         //setHasPreview(true);
         //setVideoTitle(results.items[0].snippet.title)

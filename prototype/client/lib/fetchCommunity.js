@@ -6,7 +6,7 @@ import {
 import { firestore } from "./firebase";
 import axios, * as others from 'axios';
 
-const BACKEND_URL = "http://localhost:3080"
+const BACKEND_URL = "https://ghostlyserver.vercel.app"
 
 
 export async function isCommunityExist(name) {
