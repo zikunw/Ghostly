@@ -16,7 +16,7 @@ import {
 import { firestore } from "./firebase";
 import axios, * as others from "axios";
 
-const BACKEND_URL = "http://localhost:3080";
+const BACKEND_URL = "https://ghostlyserver.vercel.app";
 
 export async function isCommunityExist(name) {
   const ref = doc(firestore, `communities/${name}`);
@@ -26,14 +26,21 @@ export async function isCommunityExist(name) {
   return isValid;
 }
 
+export async function getUserInfo(uid) {
+  const ref = doc(firestore, `users/${uid}`);
+  const docSnap = await getDoc(ref);
+
+  return docSnap.data();
+}
+
 export async function searchCommunity(name) {
   const communitiesRef = collection(firestore, "communities");
   const q = query(communitiesRef, where("__name__", ">=", name), limit(5));
   const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
+  //querySnapshot.forEach((doc) => {
+  //    // doc.data() is never undefined for query doc snapshots
+  //    console.log(doc.id, " => ", doc.data());
+  //  });
   //let matchingCommunities = []
   //getDocs(colRef)
   //    .then((snapshot) => {
@@ -45,7 +52,7 @@ export async function searchCommunity(name) {
   //        )
   //    })
 
-  return [];
+  return querySnapshot;
 }
 
 export async function getCommunityUsers(name) {
@@ -78,7 +85,13 @@ export async function addCommunityPosts(
   postType,
   postURL,
   postContent,
-  postUser
+  postUid,
+  postUsername,
+  postDisplayName,
+  postUserProfile,
+  thumbnail,
+  urlTitle,
+  urlContent
 ) {
   const communityPostRef = collection(
     firestore,
@@ -89,9 +102,15 @@ export async function addCommunityPosts(
     type: postType,
     url: postURL,
     content: postContent,
-    user: postUser,
+    user: postUid,
+    username: postUsername,
+    displayName: postDisplayName,
+    userProfile: postUserProfile,
     isDeleted: false,
+    thumbnail: thumbnail,
     timestamp: serverTimestamp(),
+    urlTitle: urlTitle,
+    urlContent: urlContent,
   });
 }
 

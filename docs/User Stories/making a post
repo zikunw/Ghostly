@@ -1,0 +1,4 @@
+As a user, I want to make a post to contribute to the community by sharing related songs on spotify or youtube videos.
+The user will click onto the community and be presented with a form. The user will provide basic info such as the title
+of the post, description and provide either a spotify or youtube link. Once the user makes the post, a post will be 
+added into the community where all who can be in the community can see it.

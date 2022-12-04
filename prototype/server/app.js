@@ -8,7 +8,8 @@ const app = express();
 const PORT = 3080;
 
 google_api_key = process.env.GOOGLE_API_KEY;
-spotify_oauth_token = process.env.SPOTIFY_OATH_TOKEN;
+spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
+spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
 app.use(express.static("public"));
 app.use(cors());
@@ -42,10 +43,10 @@ app.get('/api/getvideo', async (req, res) => {
 })
 
 app.get('/api/getvideobyid', async (req, res) => {
-    const title = req.query.title
-    console.log(`Video requested: ${title}`)
-    
-    const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${title}&key=${google_api_key}`);
+    const videoId = req.query.videoId
+    console.log(`Video requested: ${videoId}`)
+
+    const response = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${google_api_key}`);
     const myJson = await response.json();
 
     res.json(myJson)
@@ -68,7 +69,7 @@ app.get('/api/getsongbyid', async (req, res) => {
         );
     const myJson = await response.json();
 
-    res.json(myJson)
+    res.json(myJson);
 })
   
 app.listen(PORT, (error) =>{
