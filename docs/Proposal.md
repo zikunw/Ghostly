@@ -18,3 +18,8 @@ A new tool that has become really popular recently is the Blend tool on Spotify 
 
 Every new semester, students receive a syllabus for each of their classes with 20-30 due dates each. It can become hard to keep track of these dates, especially when these classes operate on different platforms, such as BlackBoard, Piazza, Canvas, etc. Our web application will streamline this process by letting students to input the assignment name, due date, and details, before transforming them into Google Calendar events. This application will connect to the Google Calendar API (https://developers.google.com/calendar/api) and Google Sheets API (https://developers.google.com/sheets/api). Therefore, the student will be able to see the event on their calendar, and also be able to easily mark it off as completed in a spreadsheet in Google Sheets. 
 
+## Idea 4: Ghostly
+
+A social media platform that is driven by the creation of communities where users share Spotify and Youtube media.
+Platforms like Reddit can become too oversaturated with posts and sometimes you just want to look for media in the form of music or videos. This is where Ghostly comes into play. Communities are groups that have a specific niche, for example rap, skateboarding, etc. People join these groups and post Youtube videos or music from Spotify that relate to the niche of the group. These communities become a great way for people to further explore their interests.
+
