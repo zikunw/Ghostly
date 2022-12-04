@@ -60,7 +60,7 @@ export default function TestAPIPage() {
         e.preventDefault();
         const songId = title.match('^(https:\/\/open.spotify.com\/track\/|spotify:user:spotify:playlist:)([a-zA-Z0-9]+)(.*)$')[2];
         const results = await getSpotifyById(songId);
-        //console.log(results)
+        console.log(results)
         if (results.error) {
             setFoundVideo(false);
         } else {

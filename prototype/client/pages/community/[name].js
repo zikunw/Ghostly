@@ -281,7 +281,7 @@ export async function getServerSideProps(context) {
   const postsInObject = await getCommunityPosts(name);
   const postList = []
   
-  postsInObject.forEach(async (rawdoc) => {
+  postsInObject.forEach((rawdoc) => {
     const doc = rawdoc.data();
 
     postList.push({
@@ -297,8 +297,6 @@ export async function getServerSideProps(context) {
     });
     
   })
-
-  console.log(postList)
 
   
 

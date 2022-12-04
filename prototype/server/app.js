@@ -8,7 +8,8 @@ const app = express();
 const PORT = 3080;
 
 google_api_key = process.env.GOOGLE_API_KEY;
-spotify_oauth_token = process.env.SPOTIFY_OATH_TOKEN;
+spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
+spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
 app.use(express.static("public"));
 app.use(cors());
