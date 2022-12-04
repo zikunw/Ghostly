@@ -20,10 +20,10 @@
   }
 
 .mainlogo {
-  transition: all 0.5s ease-in-out;
-  background-color: black;
+  transition: all 1s ease-in-out;
 }
 
 .mainlogo:hover {
-  transform: rotate(360deg)
+  transform: rotate(360deg);
+  transition: all 0.5 ease-in-out;
 }

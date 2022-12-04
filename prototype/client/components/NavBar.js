@@ -18,7 +18,7 @@ const NavBar = () => {
                         boxSize='50px'
                         onMouseOver={() => setIsLogoHover(true)}
                         onMouseOut={() => setIsLogoHover(false)}
-                        className='main-logo'
+                        className='mainlogo'
                     />
             </Link>
             <Link href={"/"}>
