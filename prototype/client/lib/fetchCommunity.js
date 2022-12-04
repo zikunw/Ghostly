@@ -26,7 +26,7 @@ export async function getUserInfo(uid) {
 
 export async function searchCommunity(name) {
     const communitiesRef = collection(firestore, 'communities');
-    const q = query(communitiesRef, where("__name__", '>=', name), limit(5));
+    const q = query(communitiesRef, where("__name__", '==', name), limit(5));
     const querySnapshot = await getDocs(q);
     //querySnapshot.forEach((doc) => {
     //    // doc.data() is never undefined for query doc snapshots

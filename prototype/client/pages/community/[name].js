@@ -235,7 +235,7 @@ const PostCard = ( props ) => {
   const [show, setShow] = useState(false);
   const handleToggle = () => setShow(!show)
   return (
-      <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
+      <Card maxW='md' minW="300px" backgroundColor="white" width="100%" height={300}>
         <CardHeader pb={2}>
           <Flex spacing='4'>
             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
@@ -275,7 +275,7 @@ const PostCard = ( props ) => {
               />
             </GridItem>
             <GridItem colSpan={3} dir='row'>
-              <Heading size="sm">{props.urlTitle}</Heading>
+              <Heading size="sm" noOfLines={2}>{props.urlTitle}</Heading>
               <Text color="gray" noOfLines={3}>{props.urlContent}</Text>
             </GridItem>
           </Grid>

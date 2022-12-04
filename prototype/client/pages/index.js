@@ -18,6 +18,9 @@ import CommunityList from "../components/CommunityList";
 export default function Home(props) {
   return (
     <Center>
+      <Heading p="2rem" as="u">
+        Current communities
+      </Heading>
       <CommunityList communities={props.communities}></CommunityList>
     </Center>
   );

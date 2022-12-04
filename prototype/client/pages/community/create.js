@@ -83,7 +83,7 @@ const CreateCommunityPage = () => {
                         </CardHeader>
                         <CardBody>
                         <Stack spacing='24px'>
-                            <Center><Image src={'/find-friend.png'} boxSize='200px'/></Center>
+                            <Center><Image src={'/lost-friend.png'} boxSize='200px' fit='contain'/></Center>
                             <Box>
                                 <FormLabel htmlFor='community-name' m={0}>New community name</FormLabel>
                                 <Input

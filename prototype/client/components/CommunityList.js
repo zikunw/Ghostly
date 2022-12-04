@@ -25,18 +25,11 @@ const CommunityList = (props) => {
   const communities = props.communities;
 
   return (
-    <Box>
-      <Heading p="2rem" as="u">
-        Current communities
-      </Heading>
-      <Flex gap={2} p="2rem">
-        <Flex direction="column" width="100%">
-          {communities?.map((community) => (
-            <Flex width="100%" justifyContent="space-between" padding="2%">
-              <CommunityCard communityName={community} />
-            </Flex>
-          ))}
-        </Flex>
+    <Box w="100%">
+      <Flex direction="column" width="100%">
+        {communities?.map((community) => (
+          <CommunityCard key={community} communityName={community} />
+        ))}
       </Flex>
     </Box>
   );
@@ -44,7 +37,7 @@ const CommunityList = (props) => {
 
 const CommunityCard = ({ communityName }) => {
   return (
-    <Card bg="white" direction="row" width="100%">
+    <Card bg="white" direction="row" width="100%" m={2}>
       <CardHeader>
         <Link href={"/community/" + communityName}>
           <Heading size="sm">{communityName}</Heading>
