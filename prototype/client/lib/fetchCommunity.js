@@ -63,7 +63,8 @@ export async function getCommunityPosts(name) {
 export async function addCommunityPosts(
     communityName, postTitle, postType, 
     postURL, postContent, postUid, postUsername,
-    postDisplayName, postUserProfile, thumbnail
+    postDisplayName, postUserProfile, thumbnail,
+    urlTitle, urlContent, 
     ) {
     const communityPostRef = collection(firestore, `communities/${communityName}/posts`);
     const docRef = await addDoc(communityPostRef, {
@@ -77,7 +78,9 @@ export async function addCommunityPosts(
         userProfile: postUserProfile,
         isDeleted: false,
         thumbnail: thumbnail,
-        timestamp: serverTimestamp()
+        timestamp: serverTimestamp(),
+        urlTitle: urlTitle,
+        urlContent: urlContent
     })
 }
 

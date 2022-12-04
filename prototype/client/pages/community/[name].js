@@ -24,7 +24,10 @@ import {
   Text,
   Badge,
   Stack,
-  Link
+  Link,
+  Grid,
+  GridItem,
+  Collapse
 } from "@chakra-ui/react";
 
 import { isCommunityExist, getCommunityUsers, addCommunityPosts, getCommunityPosts, getUserInfo } from '../../lib/fetchCommunity'
@@ -52,6 +55,9 @@ const CommunityPage = (props) => {
           <Center>
           <Heading size="2xl" as="u">{name}</Heading>
           </Center>
+
+          <PostCardList postList={postList}/>
+
           {user !== null ? 
             <PostForm communityName={name}/> : <LoginWarning />}
           
@@ -65,7 +71,7 @@ const CommunityPage = (props) => {
                   description="this is new jeans' new comeback video"
                   thumbnail="https://i.ytimg.com/vi/js1CtxSY38I/mqdefault.jpg"
           /> */}
-        <PostCardList postList={postList}/>
+        
 
 
         {/* Display users */}
@@ -112,7 +118,8 @@ const PostForm = ({communityName}) => {
     await addCommunityPosts(
       communityName, postTitle, postType, 
       postURL, postDescription, user.uid, username,
-      user.displayName, user.photoURL, results.items[0].snippet.thumbnails.high.url);
+      user.displayName, user.photoURL, results.items[0].snippet.thumbnails.high.url,
+      results.items[0].snippet.title, results.items[0].snippet.description);
     window.location.reload(false);
   }
 
@@ -149,6 +156,8 @@ const PostForm = ({communityName}) => {
             userPic={user.photoURL}
             description={postDescription}
             thumbnail={results.items[0].snippet.thumbnails.high.url}
+            urlTitle={results.items[0].snippet.title}
+            urlContent={results.items[0].snippet.description}
           />
         )
       } else {
@@ -176,7 +185,7 @@ const PostForm = ({communityName}) => {
               </CardHeader>
 
               <FormControl>
-                <Input marginTop="1%" type='text' placeholder="Title" maxLength="30" onChange={handlePostTitleOnChange}></Input>
+                <Input marginTop="1%" type='text' placeholder="Title" maxLength="60" onChange={handlePostTitleOnChange}></Input>
                 <Textarea marginTop="1%" type='text' placeholder="Description" onChange={handlePostDescriptionOnChange}></Textarea>
 
                 <FormHelperText>Enter a Youtube or Spotify Link to share to this community!</FormHelperText>
@@ -203,18 +212,18 @@ const PostCardList = ({postList}) => {
   return (
     <Stack spacing={8} direction='row'>
       {postList.map((doc) => {
-          const {content, displayName, title, type, url, user, userProfile, username, thumbnail} = doc;
+          const {content, displayName, title, type, url, user, userProfile, username, thumbnail, urlTitle, urlContent} = doc;
           return(
-            <Link  href={url} isExternal>
-              <PostCard
-                userDisplayName={displayName}
-                username={username}
-                userPic={userProfile}
-                description={content}
-                thumbnail={thumbnail}
-              />
-            </Link>
-            
+            <PostCard
+              userDisplayName={displayName}
+              username={username}
+              userPic={userProfile}
+              description={content}
+              thumbnail={thumbnail}
+              title={title}
+              urlTitle={urlTitle}
+              urlContent={urlContent}
+            />            
           )
       })}
     </Stack>
@@ -223,41 +232,57 @@ const PostCardList = ({postList}) => {
 }
 
 const PostCard = ( props ) => {
-  //console.log(props)
+  const [show, setShow] = useState(false);
+  const handleToggle = () => setShow(!show)
   return (
-    <Center>
       <Card maxW='md' backgroundColor="white" margin="2%" width="100%">
         <CardHeader pb={2}>
           <Flex spacing='4'>
             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
               <Avatar name={props.username} src={props.userPic} />
-
               <Box>
                 <Heading size='sm'>{props.userDisplayName}</Heading> {/** display name */}
                 <Text>{props.username}</Text> {/** username */}
               </Box>
             </Flex>
             <IconButton
-              variant='ghost'
+              variant='outline'
               colorScheme='gray'
               aria-label='See menu'
             />
           </Flex>
         </CardHeader>
+
         <CardBody pt={2}>
-          <Text>
-            {props.description}
-          </Text> {/** description */}
-          <Image
-          objectFit='cover'
-          src={props.thumbnail}
-          alt='Chakra UI'
-          width="480px"
-          height="360px"
-        />
+          <Grid
+            h="200px"
+            templateColumns='repeat(4, 1fr)'
+            gap={1}
+          >
+            <GridItem colSpan={4} onClick={handleToggle}>
+              <Collapse startingHeight={50} in={show}>{props.description}</Collapse>
+            </GridItem>
+            <GridItem colSpan={4} >
+              <Divider />
+            </GridItem>
+            <GridItem colSpan={1}>
+              <Image
+                objectFit='cover'
+                src={props.thumbnail}
+                alt='Chakra UI'
+                maxW={{ base: '100%', sm: '150px' }}
+                borderRadius={13}
+              />
+            </GridItem>
+            <GridItem colSpan={3} dir='row'>
+              <Heading size="sm">{props.urlTitle}</Heading>
+              <Text color="gray" noOfLines={3}>{props.urlContent}</Text>
+            </GridItem>
+          </Grid>
+          
+          
         </CardBody>
       </Card>
-    </Center>
   );
 };
 
@@ -293,7 +318,9 @@ export async function getServerSideProps(context) {
       user: doc.user,
       userProfile: doc.userProfile,
       username: doc.username,
-      thumbnail: doc.thumbnail
+      thumbnail: doc.thumbnail,
+      urlTitle: doc.urlTitle,
+      urlContent: doc.urlContent
     });
     
   })
