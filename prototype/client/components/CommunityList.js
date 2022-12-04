@@ -16,6 +16,7 @@ import {
   Button,
   Box,
   Spacer,
+  Center,
 } from "@chakra-ui/react";
 
 const LIMIT = 10;
@@ -25,27 +26,33 @@ const CommunityList = (props) => {
   const communities = props.communities;
 
   return (
-    <Box w="100%">
-      <Flex direction="column" width="100%">
-        {communities?.map((community) => (
-          <CommunityCard key={community} communityName={community} />
-        ))}
-      </Flex>
-    </Box>
+    <Center>
+      <Box w="80%">
+        <Flex direction="column" width="100%">
+          {communities?.map((community) => (
+            <CommunityCard communityName={community} />
+          ))}
+        </Flex>
+      </Box>
+    </Center>
   );
 };
 
 const CommunityCard = ({ communityName }) => {
   return (
-    <Card bg="white" direction="row" width="100%" m={2}>
-      <CardHeader>
-        <Link href={"/community/" + communityName}>
-          <Heading size="sm">{communityName}</Heading>
-        </Link>
-      </CardHeader>
-      <Spacer />
-      <Button height="100%">Join</Button>
-    </Card>
+    <Center>
+      <Card bg="white" direction="row" width="50%" m={2}>
+        <CardHeader>
+          <Link href={"/community/" + communityName}>
+            <Heading size="sm">{communityName}</Heading>
+          </Link>
+        </CardHeader>
+        <Spacer />
+        <Center>
+          <Button height="100%">Join</Button>
+        </Center>
+      </Card>
+    </Center>
   );
 };
 

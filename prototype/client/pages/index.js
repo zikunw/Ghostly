@@ -12,17 +12,29 @@ import {
 import { firestore } from "../lib/firebase";
 import { useState, useEffect } from "react";
 
-import { Heading, Box, Center } from "@chakra-ui/react";
+import { Heading, Box, Center, Card, Text, Flex } from "@chakra-ui/react";
 import CommunityList from "../components/CommunityList";
 
 export default function Home(props) {
   return (
-    <Center>
-      <Heading p="2rem" as="u">
-        Current communities
-      </Heading>
+    <Box>
+      <Center>
+        <Card bg="transparent" margin="2%" width="90%" padding="1%">
+          <Center>
+            <Flex flexDirection="column">
+              <Heading size="xl">Welcome to Ghostly!</Heading>
+              <Center>
+                <Heading size="sm">
+                  Click below to join one of our communities
+                </Heading>
+              </Center>
+            </Flex>
+          </Center>
+        </Card>
+      </Center>
+
       <CommunityList communities={props.communities}></CommunityList>
-    </Center>
+    </Box>
   );
 }
 
