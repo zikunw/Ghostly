@@ -127,7 +127,7 @@ const CommunityPage = (props) => {
           gridTemplateRows={"1fr 1fr"}
           gridTemplateColumns={"minmax(200px, 1fr) 200px"}
           gap="1"
-          width="80%"
+          width="90%"
         >
           {/* display the posts */}
           <GridItem area={"posts"}>
@@ -342,7 +342,8 @@ const PostForm = ({ communityName }) => {
 
 const PostCardList = ({ postList }) => {
   return (
-    <Stack spacing={8} direction="row">
+    // <Stack spacing={8} direction="row">
+    <Flex wrap="wrap">
       {postList.map((doc) => {
         const {
           content,
@@ -370,7 +371,9 @@ const PostCardList = ({ postList }) => {
           />
         );
       })}
-    </Stack>
+    </Flex>
+
+    // {/* </Stack> */}
   );
 };
 
@@ -378,15 +381,20 @@ const PostCard = (props) => {
   const [show, setShow] = useState(false);
   const handleToggle = () => setShow(!show);
   return (
-    <Card maxW="md" backgroundColor="white" margin="2%" width="100%">
+    // <Card maxW="md" backgroundColor="white" margin="2%" width="200px">
+    <Card
+      backgroundColor="white"
+      marginRight="2%"
+      marginBottom="2%"
+      width="350px"
+    >
       <CardHeader pb={2}>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar name={props.username} src={props.userPic} />
             <Box>
               <Heading size="sm">{props.userDisplayName}</Heading>{" "}
-              {/** display name */}
-              <Text>{props.username}</Text> {/** username */}
+              <Text>{props.username}</Text>
             </Box>
           </Flex>
           <IconButton
