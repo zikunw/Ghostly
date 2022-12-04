@@ -51,7 +51,7 @@ const CommunityCard = ({ communityName }) => {
         </Link>
       </CardHeader>
       <Spacer />
-      <Button height="100%">Join</Button>
+      <Button height="100%" >Join</Button>
     </Card>
   );
 };
