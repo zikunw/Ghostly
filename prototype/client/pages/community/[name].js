@@ -281,6 +281,19 @@ const PostForm = ({ communityName }) => {
   return (
     <Center>
       <FormControl>
+        <Input
+          marginTop="1%"
+          type="text"
+          placeholder="Title"
+          maxLength="60"
+          onChange={handlePostTitleOnChange}
+        ></Input>
+        <Textarea
+          marginTop="1%"
+          type="text"
+          placeholder="Description"
+          onChange={handlePostDescriptionOnChange}
+        ></Textarea>
         <FormHelperText>
           Enter a Youtube or Spotify Link to share to this community!
         </FormHelperText>
