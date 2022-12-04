@@ -84,17 +84,18 @@ const CommunityPage = (props) => {
       for (let i = 0; i < maxLength; i++) {
         // we'll just display the top 10 users
         let res = await getUser(userIds[i]);
-        console.log("res" + JSON.stringify(res));
+        // console.log("res " + JSON.stringify(res.data()));
         userInfosTemp.push({
-          userDisplayName: res.displayName,
-          userPic: res.photoURL,
-          username: res.username,
+          userDisplayName: res.data()["displayName"],
+          userPic: res.data()["photoURL"],
+          username: res.data()["username"],
           // console.log("test " + res.username);
         });
       }
       console.log("userInfosTemp" + JSON.stringify(userInfosTemp));
-      console.log("maxLength " + maxLength);
-      console.log("userIds after getInfo" + userIds);
+      setUserInfos(userInfosTemp);
+      // console.log("maxLength " + maxLength);
+      // console.log("userIds after getInfo" + userIds);
     }
 
     getCommunityUserInfo();
@@ -103,6 +104,9 @@ const CommunityPage = (props) => {
   return (
     <Box>
       {console.log("user info " + JSON.stringify(userInfos))}
+      {userInfos.map((obj) => {
+        console.log("User " + obj.username);
+      })}
       <Center>
         <Card bg="white" margin="2%" width="90%" padding="1%">
           <Center>
@@ -140,12 +144,19 @@ const CommunityPage = (props) => {
                 <Text fontSize="xs">Created November 29, 2022</Text>
               </CardHeader>
 
-              <CardHeader size="sm" as="b">
-                Users
-              </CardHeader>
               <CardBody>
+                <Heading size="sm">Users</Heading>
                 {/* instead of fake data, do a map function */}
-                <User
+                {userInfos.map((obj) => {
+                  return (
+                    <User
+                      userDisplayName={obj.userDisplayName}
+                      username={obj.username}
+                      userPic={obj.userPic}
+                    />
+                  );
+                })}
+                {/* <User
                   userDisplayName="Sharon Zou"
                   username="sharonzou"
                   userPic="https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c"
@@ -159,7 +170,7 @@ const CommunityPage = (props) => {
                   userDisplayName="Sharon Zou"
                   username="sharonzou"
                   userPic="https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c"
-                />
+                /> */}
               </CardBody>
 
               <CardFooter>
@@ -236,8 +247,8 @@ const CommunityPage = (props) => {
 
 const User = (props) => {
   return (
-    <Flex direction="row">
-      <Avatar marginRight="2%" name={props.username} src={props.userPic} />
+    <Flex direction="row" marginTop="3%">
+      <Avatar marginRight="5%" name={props.username} src={props.userPic} />
       <Center>
         <Text width="100%">{props.userDisplayName}</Text>
       </Center>
