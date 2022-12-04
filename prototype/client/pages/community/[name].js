@@ -24,15 +24,14 @@ import {
   Text,
   Grid,
   GridItem,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import {
@@ -49,8 +48,8 @@ const CommunityPage = (props) => {
   const { name } = router.query;
   const { isValid, users } = props;
   const [userIds, setUserIds] = useState([]);
-  // let userIds = [];
   const [userInfos, setUserInfos] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     // const userIds = [];
@@ -137,7 +136,7 @@ const CommunityPage = (props) => {
           </GridItem>
 
           {/* Display community information */}
-          <GridItem colStart={2} colEnd={4} area={"users"} marginRight="2%">
+          <GridItem colStart={2} colEnd={5} area={"users"} marginRight="2%">
             <Card maxW="sm" bg="white">
               <CardHeader>
                 <Heading size="sm">About Community</Heading>
@@ -146,7 +145,6 @@ const CommunityPage = (props) => {
 
               <CardBody>
                 <Heading size="sm">Users</Heading>
-                {/* instead of fake data, do a map function */}
                 {userInfos.map((obj) => {
                   return (
                     <User
@@ -156,86 +154,60 @@ const CommunityPage = (props) => {
                     />
                   );
                 })}
-                {/* <User
-                  userDisplayName="Sharon Zou"
-                  username="sharonzou"
-                  userPic="https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c"
-                />
-                <User
-                  userDisplayName="Sharon Zou"
-                  username="sharonzou"
-                  userPic="https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c"
-                />
-                <User
-                  userDisplayName="Sharon Zou"
-                  username="sharonzou"
-                  userPic="https://lh3.googleusercontent.com/a/ALm5wu3WoyyIJ5pWxyM4L0w8MhJRw78v1r6ncZSjUFxI=s96-c"
-                /> */}
               </CardBody>
 
               <CardFooter>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button>Create Post</Button>
-                  </PopoverTrigger>
-                  <PopoverContent width="500px">
-                    <PopoverArrow />
-                    <PopoverCloseButton />
-                    <PopoverHeader>Create New Post</PopoverHeader>
-                    <PopoverBody>
+                <Button onClick={onOpen}>Create Post</Button>
+
+                <Modal isOpen={isOpen} onClose={onClose}>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>Create New Post</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
                       <Flex direction="column" width="100%">
                         <Center>
-                          <Card
-                            bg="white"
-                            width="100%"
-                            overflow="hidden"
-                            variant="outline"
-                            margin="2%"
-                            padding="2%"
-                          >
-                            <CardHeader>
-                              <Heading size="md">Make a new post</Heading>
-                            </CardHeader>
-
-                            <FormControl>
-                              <Input
-                                marginTop="1%"
-                                type="text"
-                                placeholder="Title"
-                                maxLength="30"
-                              ></Input>
-                              <Textarea
-                                marginTop="1%"
-                                type="text"
-                                placeholder="Description"
-                              ></Textarea>
-                              <FormHelperText>
-                                Enter a Youtube or Spotify Link to share to this
-                                community!
-                              </FormHelperText>
-                              <Select
-                                marginTop="1%"
-                                placeholder="Select link type"
-                              >
-                                <option>Spotify</option>
-                                <option>Youtube</option>
-                              </Select>
-                              <Input
-                                marginTop="1%"
-                                type="url"
-                                placeholder="Link"
-                              ></Input>
-
-                              <Button marginTop="1%" colorScheme="blue">
-                                Post
-                              </Button>
-                            </FormControl>
-                          </Card>
+                          <FormControl>
+                            <Input
+                              marginTop="1%"
+                              type="text"
+                              placeholder="Title"
+                              maxLength="30"
+                            ></Input>
+                            <Textarea
+                              marginTop="1%"
+                              type="text"
+                              placeholder="Description"
+                            ></Textarea>
+                            <FormHelperText>
+                              Enter a Youtube or Spotify Link to share to this
+                              community!
+                            </FormHelperText>
+                            <Select
+                              marginTop="1%"
+                              placeholder="Select link type"
+                            >
+                              <option>Spotify</option>
+                              <option>Youtube</option>
+                            </Select>
+                            <Input
+                              marginTop="1%"
+                              type="url"
+                              placeholder="Link"
+                            ></Input>
+                          </FormControl>
                         </Center>
                       </Flex>
-                    </PopoverBody>
-                  </PopoverContent>
-                </Popover>
+                    </ModalBody>
+
+                    <ModalFooter>
+                      <Button colorScheme="gray" mr={3} onClick={onClose}>
+                        Cancel
+                      </Button>
+                      <Button colorScheme="blue">Post</Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
               </CardFooter>
             </Card>
           </GridItem>
