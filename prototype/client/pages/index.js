@@ -32,8 +32,9 @@ export default function Home(props) {
           </Center>
         </Card>
       </Center>
-
-      <CommunityList communities={props.communities}></CommunityList>
+      <Center pl="20%" pr="20%">
+        <CommunityList communities={props.communities}></CommunityList>
+      </Center>
     </Box>
   );
 }

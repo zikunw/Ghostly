@@ -26,22 +26,20 @@ const CommunityList = (props) => {
   const communities = props.communities;
 
   return (
-    <Center>
-      <Box w="80%">
+      <Box w="100%">
         <Flex direction="column" width="100%">
           {communities?.map((community) => (
             <CommunityCard communityName={community} />
           ))}
         </Flex>
       </Box>
-    </Center>
   );
 };
 
 const CommunityCard = ({ communityName }) => {
   return (
     <Center>
-      <Card bg="white" direction="row" width="50%" m={2}>
+      <Card bg="white" direction="row" width="100%" m={2}>
         <CardHeader>
           <Link href={"/community/" + communityName}>
             <Heading size="sm">{communityName}</Heading>
