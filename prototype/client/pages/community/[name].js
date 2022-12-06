@@ -164,11 +164,8 @@ const CommunityPage = (props) => {
                     <ModalHeader>Make a new post</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                      {user !== null ? (
-                        <PostForm communityName={name} />
-                      ) : (
-                        <LoginWarning />
-                      )}
+                      {username && <PostForm communityName={name} />}
+                      {!username && <LoginWarning />}
                     </ModalBody>
 
                     <ModalFooter>
