@@ -21,7 +21,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 
+import { useContext } from "react";
+import { UserContext } from "../lib/context";
+
 export const PostCard = (props) => {
+  const {userData} = useContext(UserContext)
+  const {user, username} = userData
+
   return (
     <Center>
       <Card maxW="md" backgroundColor="white" width="100%">

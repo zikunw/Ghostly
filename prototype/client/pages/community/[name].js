@@ -46,11 +46,14 @@ import {
   getUserInfo,
   getUser,
   getYoutubeById,
+  deleteCommunityPost
 } from "../../lib/fetchCommunity";
 // import { PostCard } from "../../components/PostCard";
 import { useEffect, useState, setState, useContext } from "react";
 import { UserContext } from "../../lib/context";
 import LoginWarning from "../../components/LoginWarning";
+
+import { AiFillDelete } from "react-icons/ai";
 
 const CommunityPage = (props) => {
   const router = useRouter();
@@ -72,12 +75,12 @@ const CommunityPage = (props) => {
         // doc.data() is never undefined for query doc snapshots
         // setUserIds([...userIds, doc.id]);
         userIdsTemp.push(doc.id);
-        console.log("user id", doc.id);
+        //console.log("user id", doc.id);
         // console.log("userIds", [...userIds, doc.id]);
       });
-      console.log("this is userIdsTemp!!\n" + userIdsTemp);
+      //console.log("this is userIdsTemp!!\n" + userIdsTemp);
       setUserIds(userIdsTemp);
-      console.log("this is userIds!!\n" + userIds);
+      //console.log("this is userIds!!\n" + userIds);
     }
 
     getCommunityUsers1();
@@ -102,7 +105,7 @@ const CommunityPage = (props) => {
           // console.log("test " + res.username);
         });
       }
-      console.log("userInfosTemp" + JSON.stringify(userInfosTemp));
+      //console.log("userInfosTemp" + JSON.stringify(userInfosTemp));
       setUserInfos(userInfosTemp);
       // console.log("maxLength " + maxLength);
       // console.log("userIds after getInfo" + userIds);
@@ -131,7 +134,7 @@ const CommunityPage = (props) => {
         >
           {/* display the posts */}
           <GridItem area={"posts"}>
-            <PostCardList postList={postList} />
+            <PostCardList postList={postList} communityName={name} />
           </GridItem>
 
           {/* Display community information */}
@@ -147,6 +150,7 @@ const CommunityPage = (props) => {
                 {userInfos.map((obj) => {
                   return (
                     <User
+                      key={obj.username}
                       userDisplayName={obj.userDisplayName}
                       username={obj.username}
                       userPic={obj.userPic}
@@ -336,7 +340,7 @@ const PostForm = ({ communityName }) => {
   );
 };
 
-const PostCardList = ({ postList }) => {
+const PostCardList = ({ postList, communityName }) => {
   return (
     // <Stack spacing={8} direction="row">
     <Flex wrap="wrap">
@@ -353,9 +357,13 @@ const PostCardList = ({ postList }) => {
           thumbnail,
           urlTitle,
           urlContent,
+          postId
         } = doc;
         return (
           <PostCard
+            key={postId}
+            communityName={communityName}
+            postId={postId}
             userDisplayName={displayName}
             username={username}
             userPic={userProfile}
@@ -364,6 +372,7 @@ const PostCardList = ({ postList }) => {
             title={title}
             urlTitle={urlTitle}
             urlContent={urlContent}
+            uid={user}
           />
         );
       })}
@@ -376,13 +385,23 @@ const PostCardList = ({ postList }) => {
 const PostCard = (props) => {
   const [show, setShow] = useState(false);
   const handleToggle = () => setShow(!show);
+
+  const { userData } = useContext(UserContext);
+  const { user, username } = userData;
+
+  const handleDeletePost = async (e) => {
+    e.preventDefault();
+    await deleteCommunityPost(props.communityName, props.postId, user.uid);
+    window.location.reload(false);
+  }
+
   return (
     // <Card maxW="md" backgroundColor="white" margin="2%" width="200px">
     <Card
       backgroundColor="white"
       marginRight="2%"
       marginBottom="2%"
-      width="350px"
+      width="lg"
     >
       <CardHeader pb={2}>
         <Flex spacing="4">
@@ -393,11 +412,15 @@ const PostCard = (props) => {
               <Text>{props.username}</Text>
             </Box>
           </Flex>
-          <IconButton
-            variant="outline"
-            colorScheme="gray"
-            aria-label="See menu"
-          />
+          {props.uid === user?.uid && 
+            <IconButton 
+              variant="outline" 
+              colorScheme="gray" 
+              aria-label="See menu" 
+              icon={<AiFillDelete />} 
+              onClick={handleDeletePost}
+              />
+          }
         </Flex>
       </CardHeader>
 
@@ -453,8 +476,9 @@ export async function getServerSideProps(context) {
 
   postsInObject.forEach((rawdoc) => {
     const doc = rawdoc.data();
-
+    
     postList.push({
+      postId: rawdoc.id,
       content: doc.content,
       displayName: doc.displayName,
       title: doc.title,

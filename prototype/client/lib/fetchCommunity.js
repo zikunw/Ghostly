@@ -135,7 +135,7 @@ export async function getSpotifyById(id) {
   return res.data;
 }
 
-export async function deleteCommunityPosts(communityName, postId, uid) {
+export async function deleteCommunityPost(communityName, postId, uid) {
   // First get a reference of the post document
   // Check if the post is indeed posted by the user
   const docRef = doc(firestore, `communities/${communityName}/posts/${postId}`);
