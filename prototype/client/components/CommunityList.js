@@ -53,7 +53,11 @@ const CommunityList = (props) => {
       {loaded ? (
         <Flex direction="column" width="100%">
           {communities?.map((community) => (
-            <CommunityCard communityName={community} user={user} />
+            <CommunityCard
+              communityName={community}
+              user={user}
+              username={username}
+            />
           ))}
         </Flex>
       ) : (
@@ -63,7 +67,7 @@ const CommunityList = (props) => {
   );
 };
 
-const CommunityCard = ({ communityName, user }) => {
+const CommunityCard = ({ communityName, user, username }) => {
   const [joined, setJoined] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -85,14 +89,16 @@ const CommunityCard = ({ communityName, user }) => {
   async function handleJoinButton(e) {
     e.preventDefault();
     const res = await addCommunityUser(communityName, user.uid, username);
+    setJoined(true);
     onOpen();
   }
 
   async function handleLeaveButton(e) {
     e.preventDefault();
     await deleteCommunityUser(communityName, user.uid);
-
-    window.location.reload(false);
+    setJoined(false);
+    onOpen();
+    // window.location.reload(false);
   }
 
   return (
@@ -132,12 +138,25 @@ const CommunityCard = ({ communityName, user }) => {
         <AlertDialogOverlay>
           <AlertDialogContent pt="2rem">
             <AlertDialogBody>
-              Success! You are now a community member of:{" "}
-              <Text as="span" color="teal">
-                <Link href={"/community/" + communityName}>
-                  {communityName}
-                </Link>
-              </Text>
+              {joined ? (
+                <Box>
+                  Success! You are now a community member of:{" "}
+                  <Text as="span" color="teal">
+                    <Link href={"/community/" + communityName}>
+                      {communityName}
+                    </Link>
+                  </Text>
+                </Box>
+              ) : (
+                <Box>
+                  Sorry to see you go! You are now not a community member of:{" "}
+                  <Text as="span" color="teal">
+                    <Link href={"/community/" + communityName}>
+                      {communityName}
+                    </Link>
+                  </Text>
+                </Box>
+              )}
             </AlertDialogBody>
 
             <AlertDialogFooter>
