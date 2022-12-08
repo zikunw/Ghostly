@@ -46,7 +46,8 @@ import {
   getUserInfo,
   getUser,
   getYoutubeById,
-  deleteCommunityPost
+  deleteCommunityPost,
+  getBookById
 } from "../../lib/fetchCommunity";
 // import { PostCard } from "../../components/PostCard";
 import { useEffect, useState, setState, useContext } from "react";
@@ -173,7 +174,7 @@ const CommunityPage = (props) => {
                     </ModalBody>
 
                     <ModalFooter>
-                      <Button colorScheme="gray" mr={3} onClick={onClose}>
+                      <Button colorScheme="gray" mr={3} onClick={onClose} w="100%">
                         Cancel
                       </Button>
                     </ModalFooter>
@@ -205,33 +206,64 @@ const PostForm = ({ communityName }) => {
   // Sumbit post
   async function handlePostSubmission(e) {
     e.preventDefault();
-    const videoRegex = postURL.match("[?&]v=([^&]+)");
-    // If the url is not valid
-    if (videoRegex === null) {
-      alert("invalid url");
-      return;
-    }
-    if (isError) {
-      console.log("please fill in every field.");
-      return;
-    }
-    const videoId = videoRegex[1];
-    const results = await getYoutubeById(videoId);
+    if (postType === "youtube"){
+      const videoRegex = postURL.match("[?&]v=([^&]+)");
+      // If the url is not valid
+      if (videoRegex === null) {
+        alert("invalid url");
+        return;
+      }
+      if (isError) {
+        console.log("please fill in every field.");
+        return;
+      }
+      const videoId = videoRegex[1];
+      const results = await getYoutubeById(videoId);
 
-    await addCommunityPosts(
-      communityName,
-      postTitle,
-      postType,
-      postURL,
-      postDescription,
-      user.uid,
-      username,
-      user.displayName,
-      user.photoURL,
-      results.items[0].snippet.thumbnails.high.url,
-      results.items[0].snippet.title,
-      results.items[0].snippet.description
-    );
+      await addCommunityPosts(
+        communityName,
+        postTitle,
+        postType,
+        postURL,
+        postDescription,
+        user.uid,
+        username,
+        user.displayName,
+        user.photoURL,
+        results.items[0].snippet.thumbnails.high.url,
+        results.items[0].snippet.title,
+        results.items[0].snippet.description
+      );
+    } else if (postType === "book") {
+      const videoRegex = postURL.match("[?&]id=([^&]+)");
+      // If the url is not valid
+      if (videoRegex === null) {
+        alert("invalid url");
+        return;
+      }
+      if (isError) {
+        console.log("please fill in every field.");
+        return;
+      }
+      const videoId = videoRegex[1];
+      const results = await getBookById(videoId);
+
+      await addCommunityPosts(
+        communityName,
+        postTitle,
+        postType,
+        postURL,
+        postDescription,
+        user.uid,
+        username,
+        user.displayName,
+        user.photoURL,
+        results.volumeInfo.imageLinks.large,
+        results.volumeInfo.title,
+        results.volumeInfo.description
+      );
+    }
+    
     window.location.reload(false);
   }
 
@@ -278,23 +310,23 @@ const PostForm = ({ communityName }) => {
       }
       const videoId = videoRegex[1];
       console.log(videoId);
-      //const results = await getYoutubeById(videoId);
-      ////console.log(results);
-      //if (results.items.length > 0) {
-      //  setPreviewResult(
-      //    <PostCard
-      //      userDisplayName={username}
-      //      username={user.displayName}
-      //      userPic={user.photoURL}
-      //      description={postDescription}
-      //      thumbnail={results.items[0].snippet.thumbnails.high.url}
-      //      urlTitle={results.items[0].snippet.title}
-      //      urlContent={results.items[0].snippet.description}
-      //    />
-      //  );
-      //} else {
-      //  setHasPreview(false);
-      //}
+      const results = await getBookById(videoId);
+      console.log(results);
+      if (!results.error) {
+        setPreviewResult(
+          <PostCard
+            userDisplayName={username}
+            username={user.displayName}
+            userPic={user.photoURL}
+            description={postDescription}
+            thumbnail={results.volumeInfo.imageLinks.large}
+            urlTitle={results.volumeInfo.title}
+            urlContent={results.volumeInfo.description}
+          />
+        );
+      } else {
+        setHasPreview(false);
+      }
     }
   };
 
@@ -342,8 +374,10 @@ const PostForm = ({ communityName }) => {
             Preview
           </Button>
         </Flex>
-
-        {previewResult}
+        <Center>
+          {previewResult}
+        </Center>
+        
 
         <Button
           marginTop="1%"
@@ -420,7 +454,7 @@ const PostCard = (props) => {
       backgroundColor="white"
       marginRight="2%"
       marginBottom="2%"
-      width="lg"
+      w="md"
     >
       <CardHeader pb={2}>
         <Flex spacing="4">
@@ -444,7 +478,7 @@ const PostCard = (props) => {
       </CardHeader>
 
       <CardBody pt={2}>
-        <Grid h="200px" templateColumns="repeat(4, 1fr)" gap={1}>
+        <Grid h="100%" templateColumns="repeat(4, 1fr)" gap={1}>
           <GridItem colSpan={4} onClick={handleToggle}>
             <Collapse startingHeight={50} in={show}>
               {props.description}
@@ -459,6 +493,7 @@ const PostCard = (props) => {
               src={props.thumbnail}
               alt="Chakra UI"
               maxW={{ base: "100%", sm: "150px" }}
+              maxH="120px"
               borderRadius={13}
             />
           </GridItem>
