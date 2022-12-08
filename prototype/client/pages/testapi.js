@@ -11,7 +11,8 @@ import {
     addCommunityUser,
     deleteCommunityUser,
     searchCommunity,
-    getSpotifyById
+    getSpotifyById,
+    getBookByName,
 } from "../lib/fetchCommunity"
 
 export default function TestAPIPage() {
@@ -127,6 +128,15 @@ export default function TestAPIPage() {
         console.log(result);
     }
 
+    // Get book by name:
+    async function handleSearchBookByName(e) {
+        e.preventDefault();
+        const searchName = "javascript";
+        const result = await getBookByName(searchName);
+
+        console.log(result)
+    }
+
     return(
         <>
             <Heading>Test</Heading>
@@ -138,6 +148,7 @@ export default function TestAPIPage() {
                 <Button onClick={handleCommunityAddUser}>Add user to a community</Button>
                 <Button onClick={handleCommunityDeleteUser}>Delete user from a community</Button>
                 <Button onClick={handleSearchCommunity}>Search community by name</Button>
+                <Button onClick={handleSearchBookByName}>Search book by name</Button>
             </HStack>
             
             <form action="/getbook" method="GET">

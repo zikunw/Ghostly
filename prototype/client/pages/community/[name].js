@@ -237,8 +237,7 @@ const PostForm = ({ communityName }) => {
 
   // Handle post type change
   const handlePostTitleOnChange = (e) => setPostTitle(e.target.value);
-  const handlePostDescriptionOnChange = (e) =>
-    setPostDescription(e.target.value);
+  const handlePostDescriptionOnChange = (e) => setPostDescription(e.target.value);
   const handlePostURLOnChange = (e) => setPostURL(e.target.value);
   const handlePostTypeOnChange = (e) => setPostType(e.target.value);
 
@@ -254,13 +253,8 @@ const PostForm = ({ communityName }) => {
       }
       const videoId = videoRegex[1];
       const results = await getYoutubeById(videoId);
-      console.log(results);
+      //console.log(results);
       if (results.items.length > 0) {
-        //setHasPreview(true);
-        //setVideoTitle(results.items[0].snippet.title)
-        //setVideoURL("https://www.youtube.com/watch?v=" + results.items[0].id);
-        //setVideoThumbnail(JSON.stringify(results.items[0].snippet.thumbnails.high));
-        //setVideoDescription(results.items[0].snippet.description);
         setPreviewResult(
           <PostCard
             userDisplayName={username}
@@ -275,7 +269,32 @@ const PostForm = ({ communityName }) => {
       } else {
         setHasPreview(false);
       }
-    } else if (postType === "spotify") {
+    } else if (postType === "book") {
+      //Do book stuff
+      const videoRegex = postURL.match("[?&]id=([^&]+)");
+      // If the url is not valid
+      if (videoRegex === null) {
+        return;
+      }
+      const videoId = videoRegex[1];
+      console.log(videoId);
+      //const results = await getYoutubeById(videoId);
+      ////console.log(results);
+      //if (results.items.length > 0) {
+      //  setPreviewResult(
+      //    <PostCard
+      //      userDisplayName={username}
+      //      username={user.displayName}
+      //      userPic={user.photoURL}
+      //      description={postDescription}
+      //      thumbnail={results.items[0].snippet.thumbnails.high.url}
+      //      urlTitle={results.items[0].snippet.title}
+      //      urlContent={results.items[0].snippet.description}
+      //    />
+      //  );
+      //} else {
+      //  setHasPreview(false);
+      //}
     }
   };
 
@@ -296,7 +315,7 @@ const PostForm = ({ communityName }) => {
           onChange={handlePostDescriptionOnChange}
         ></Textarea>
         <FormHelperText>
-          Enter a Youtube or Spotify Link to share to this community!
+          Enter a Youtube or Book Link to share to this community!
         </FormHelperText>
         <Flex gap={1}>
           <Select
@@ -305,8 +324,8 @@ const PostForm = ({ communityName }) => {
             onChange={handlePostTypeOnChange}
             value={postType}
           >
-            <option key="spotify" value="spotify">
-              Spotify
+            <option key="book" value="book">
+              Book
             </option>
             <option key="youtube" value="youtube">
               Youtube

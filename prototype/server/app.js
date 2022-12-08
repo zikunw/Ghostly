@@ -32,6 +32,16 @@ app.get('/api/getbook', async (req, res) => {
     res.json(myJson)
 })
 
+app.get('/api/getbookbyid', async (req, res) => {
+    const bookId = req.query.bookId
+    console.log(`Book requested: ${bookId}`)
+
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+    const myJson = await response.json();
+
+    res.json(myJson)
+})
+
 app.get('/api/getvideo', async (req, res) => {
     const title = req.query.title
     console.log(`Video requested: ${title}`)

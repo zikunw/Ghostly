@@ -121,6 +121,20 @@ export async function getYoutubeByName(name) {
   return res.data;
 }
 
+export async function getBookByName(name) {
+  const res = await axios.get(`${BACKEND_URL}/api/getbook`, {
+    params: { title: name },
+  });
+  return res.data;
+}
+
+export async function getBookById(id) {
+  const res = await axios.get(`${BACKEND_URL}/api/getbookbyid`, {
+    params: { bookId: id },
+  });
+  return res.data;
+}
+
 export async function getYoutubeById(id) {
   const res = await axios.get(`${BACKEND_URL}/api/getvideobyid`, {
     params: { videoId: id },
