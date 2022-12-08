@@ -12,6 +12,7 @@ import {
   deleteDoc,
   getFirestore,
   limit,
+  writeBatch,
 } from "firebase/firestore";
 import { firestore } from "./firebase";
 import axios, * as others from "axios";
@@ -189,8 +190,11 @@ export async function addCommunityUser(communityName, uid, username) {
   }
 
   // Add user to the community
-  const userRef = doc(firestore, `communities/${communityName}/users/${uid}`);
-  await setDoc(userRef, {
+  const communityUserRef = doc(
+    firestore,
+    `communities/${communityName}/users/${uid}`
+  );
+  await setDoc(communityUserRef, {
     username: username,
   });
 
@@ -221,4 +225,22 @@ export async function deleteCommunityUser(communityName, uid) {
   console.log("Successfully deleted user!");
 }
 
-export async function getUserCommunities(communityName, uid) {}
+export async function userInCommunity(communityName, uid) {
+  // Check if the community exists
+  const communityRef = doc(firestore, `communities/${communityName}`);
+  const communitySnap = await getDoc(communityRef);
+
+  if (!communitySnap.exists()) {
+    console.log("Error: community does not exists.");
+    return;
+  }
+
+  // Check if the user exists in the community
+  const userRef = doc(firestore, `communities/${communityName}/users/${uid}`);
+  const userSnap = await getDoc(userRef);
+  if (!userSnap.exists()) {
+    console.log("User does not exists under this community.");
+    return false;
+  }
+  return true;
+}

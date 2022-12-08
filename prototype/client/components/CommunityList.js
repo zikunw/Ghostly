@@ -19,32 +19,68 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { UserContext } from "../lib/context";
-import { addCommunityUser } from "../lib/fetchCommunity";
+import {
+  addCommunityUser,
+  userInCommunity,
+  deleteCommunityUser,
+} from "../lib/fetchCommunity";
 
 const LIMIT = 10;
 
 //TODO
 const CommunityList = (props) => {
   const communities = props.communities;
+  const [loaded, setLoaded] = useState(false);
+  const { userData } = useContext(UserContext);
+  const { user, username } = userData;
+
+  useEffect(() => {
+    if (user != null) {
+      setLoaded(true);
+    }
+  }, [user]);
 
   return (
     <Box w="100%">
-      <Flex direction="column" width="100%">
-        {communities?.map((community) => (
-          <CommunityCard communityName={community} />
-        ))}
-      </Flex>
+      {loaded ? (
+        <Flex direction="column" width="100%">
+          {communities?.map((community) => (
+            <CommunityCard communityName={community} user={user} />
+          ))}
+        </Flex>
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };
 
-const CommunityCard = ({ communityName }) => {
-  const { userData } = useContext(UserContext);
-  const { user, username } = userData;
+const CommunityCard = ({ communityName, user }) => {
+  const [joined, setJoined] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    async function checkJoined() {
+      const val = await userInCommunity(communityName, user.uid);
+      if (val == true) {
+        setJoined(val);
+      }
+      setLoaded(true);
+    }
+
+    checkJoined();
+  }, []);
 
   async function handleJoinButton(e) {
     e.preventDefault();
     await addCommunityUser(communityName, user.uid, username);
+
+    window.location.reload(false);
+  }
+
+  async function handleLeaveButton(e) {
+    e.preventDefault();
+    await deleteCommunityUser(communityName, user.uid);
 
     window.location.reload(false);
   }
@@ -58,10 +94,24 @@ const CommunityCard = ({ communityName }) => {
           </Link>
         </CardHeader>
         <Spacer />
+        {/* <Box width="100px" height="100%"> */}
         <Center>
-          <Button height="100%" onClick={handleJoinButton}>
-            Join
-          </Button>
+          <Box width="100%" height="100%">
+            {joined && loaded ? (
+              <Button height="100%" minW="80px" onClick={handleLeaveButton}>
+                Leave
+              </Button>
+            ) : (
+              <></>
+            )}
+            {!joined && loaded ? (
+              <Button height="100%" minW="80px" onClick={handleJoinButton}>
+                Join
+              </Button>
+            ) : (
+              <></>
+            )}
+          </Box>
         </Center>
       </Card>
     </Center>
