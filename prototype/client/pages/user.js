@@ -1,22 +1,22 @@
-import { Heading } from "@chakra-ui/react"
-import { UserContext } from "../lib/context"
-import { useContext } from "react"
+import { Heading, Text } from "@chakra-ui/react";
+import { UserContext } from "../lib/context";
+import { useContext } from "react";
 
 const User = () => {
-    const { userData } = useContext(UserContext)
-    const { user, username } = userData
+  const { userData } = useContext(UserContext);
+  const { user, username } = userData;
 
-    return (
+  return (
+    <>
+      {username && (
         <>
-        {username && (
-            <>
-                <Heading>User Setting Page</Heading>
-                
-            </>
-            )}
-        {!username && (<Heading>Please login</Heading>)}
+          <Heading>User Setting Page</Heading>
+          <Text>Hi, {username}</Text>
         </>
-    )
-}
+      )}
+      {!username && <Heading>Please login</Heading>}
+    </>
+  );
+};
 
-export default User
+export default User;
