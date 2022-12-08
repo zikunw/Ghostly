@@ -6,17 +6,24 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { firestore } from "../lib/firebase";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import {
   Card,
   CardHeader,
   Flex,
   Heading,
-  Link,
   Button,
   Box,
   Spacer,
   Center,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import { UserContext } from "../lib/context";
 import {
@@ -24,6 +31,7 @@ import {
   userInCommunity,
   deleteCommunityUser,
 } from "../lib/fetchCommunity";
+import Link from "next/link";
 
 const LIMIT = 10;
 
@@ -71,11 +79,13 @@ const CommunityCard = ({ communityName, user }) => {
     checkJoined();
   }, []);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
+
   async function handleJoinButton(e) {
     e.preventDefault();
-    await addCommunityUser(communityName, user.uid, username);
-
-    window.location.reload(false);
+    const res = await addCommunityUser(communityName, user.uid, username);
+    onOpen();
   }
 
   async function handleLeaveButton(e) {
@@ -114,6 +124,30 @@ const CommunityCard = ({ communityName, user }) => {
           </Box>
         </Center>
       </Card>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent pt="2rem">
+            <AlertDialogBody>
+              Success! You are now a community member of:{" "}
+              <Text as="span" color="teal">
+                <Link href={"/community/" + communityName}>
+                  {communityName}
+                </Link>
+              </Text>
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Close
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Center>
   );
 };
