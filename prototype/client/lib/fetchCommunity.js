@@ -220,3 +220,5 @@ export async function deleteCommunityUser(communityName, uid) {
 
   console.log("Successfully deleted user!");
 }
+
+export async function getUserCommunities(communityName, uid) {}
