@@ -47,7 +47,9 @@ import {
   getUser,
   getYoutubeById,
   deleteCommunityPost,
-  getBookById
+  getBookById,
+  userInCommunity,
+  addCommunityUser,
 } from "../../lib/fetchCommunity";
 // import { PostCard } from "../../components/PostCard";
 import { useEffect, useState, setState, useContext } from "react";
@@ -62,9 +64,17 @@ const CommunityPage = (props) => {
   const { isValid, users, postList } = props;
   const [userIds, setUserIds] = useState([]);
   const [userInfos, setUserInfos] = useState([]);
+  const [userIsInCommunity, setUserIsInCommunity] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { userData } = useContext(UserContext);
   const { user, username } = userData;
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (user != null) {
+      setLoaded(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     // const userIds = [];
@@ -85,7 +95,7 @@ const CommunityPage = (props) => {
     }
 
     getCommunityUsers1();
-  }, []);
+  }, [loaded]);
 
   useEffect(() => {
     const userInfosTemp = [];
@@ -114,6 +124,31 @@ const CommunityPage = (props) => {
 
     getCommunityUserInfo();
   }, [userIds]);
+
+  useEffect(() => {
+    async function checkUserInCommunity() {
+      console.log(user);
+      if (user == null) {
+        return;
+      } else {
+        let res = await userInCommunity(name, user.uid);
+        setUserIsInCommunity(res);
+      }
+    }
+    checkUserInCommunity();
+  }, [user]);
+
+  async function handleJoinButton(e) {
+    e.preventDefault();
+    const res = await addCommunityUser(name, user.uid, username);
+    // console.log(res);
+    setUserIsInCommunity(true);
+    window.location.reload(false);
+  }
+
+  // if (userIds.includes(user.uid)) {
+  //   setUserIsInCommunity(true);
+  // }
 
   return (
     <Box>
@@ -161,7 +196,15 @@ const CommunityPage = (props) => {
               </CardBody>
 
               <CardFooter>
-                <Button onClick={onOpen}>Create Post</Button>
+                {/* {loaded && userInfos.includes(user) ? ( */}
+                {userIsInCommunity ? (
+                  <Button onClick={onOpen}>Create Post</Button>
+                ) : (
+                  <>
+                    <Text>You are not in this community</Text>
+                    <Button onClick={handleJoinButton}>Join to Post</Button>
+                  </>
+                )}
 
                 <Modal isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
@@ -174,7 +217,12 @@ const CommunityPage = (props) => {
                     </ModalBody>
 
                     <ModalFooter>
-                      <Button colorScheme="gray" mr={3} onClick={onClose} w="100%">
+                      <Button
+                        colorScheme="gray"
+                        mr={3}
+                        onClick={onClose}
+                        w="100%"
+                      >
                         Cancel
                       </Button>
                     </ModalFooter>
@@ -206,7 +254,7 @@ const PostForm = ({ communityName }) => {
   // Sumbit post
   async function handlePostSubmission(e) {
     e.preventDefault();
-    if (postType === "youtube"){
+    if (postType === "youtube") {
       const videoRegex = postURL.match("[?&]v=([^&]+)");
       // If the url is not valid
       if (videoRegex === null) {
@@ -263,13 +311,14 @@ const PostForm = ({ communityName }) => {
         results.volumeInfo.description
       );
     }
-    
+
     window.location.reload(false);
   }
 
   // Handle post type change
   const handlePostTitleOnChange = (e) => setPostTitle(e.target.value);
-  const handlePostDescriptionOnChange = (e) => setPostDescription(e.target.value);
+  const handlePostDescriptionOnChange = (e) =>
+    setPostDescription(e.target.value);
   const handlePostURLOnChange = (e) => setPostURL(e.target.value);
   const handlePostTypeOnChange = (e) => setPostType(e.target.value);
 
@@ -374,10 +423,7 @@ const PostForm = ({ communityName }) => {
             Preview
           </Button>
         </Flex>
-        <Center>
-          {previewResult}
-        </Center>
-        
+        <Center>{previewResult}</Center>
 
         <Button
           marginTop="1%"
@@ -410,7 +456,7 @@ const PostCardList = ({ postList, communityName }) => {
           thumbnail,
           urlTitle,
           urlContent,
-          postId
+          postId,
         } = doc;
         return (
           <PostCard
@@ -446,16 +492,11 @@ const PostCard = (props) => {
     e.preventDefault();
     await deleteCommunityPost(props.communityName, props.postId, user.uid);
     window.location.reload(false);
-  }
+  };
 
   return (
     // <Card maxW="md" backgroundColor="white" margin="2%" width="200px">
-    <Card
-      backgroundColor="white"
-      marginRight="2%"
-      marginBottom="2%"
-      w="md"
-    >
+    <Card backgroundColor="white" marginRight="2%" marginBottom="2%" w="md">
       <CardHeader pb={2}>
         <Flex spacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -465,15 +506,15 @@ const PostCard = (props) => {
               <Text>{props.username}</Text>
             </Box>
           </Flex>
-          {props.uid === user?.uid && 
-            <IconButton 
-              variant="outline" 
-              colorScheme="gray" 
-              aria-label="See menu" 
-              icon={<AiFillDelete />} 
+          {props.uid === user?.uid && (
+            <IconButton
+              variant="outline"
+              colorScheme="gray"
+              aria-label="See menu"
+              icon={<AiFillDelete />}
               onClick={handleDeletePost}
-              />
-          }
+            />
+          )}
         </Flex>
       </CardHeader>
 
@@ -530,7 +571,7 @@ export async function getServerSideProps(context) {
 
   postsInObject.forEach((rawdoc) => {
     const doc = rawdoc.data();
-    
+
     postList.push({
       postId: rawdoc.id,
       content: doc.content,
