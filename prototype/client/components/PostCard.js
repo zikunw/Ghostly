@@ -25,8 +25,8 @@ import { useContext } from "react";
 import { UserContext } from "../lib/context";
 
 export const PostCard = (props) => {
-  const {userData} = useContext(UserContext)
-  const {user, username} = userData
+  const { userData } = useContext(UserContext);
+  const { user, username } = userData;
 
   return (
     <Center>
