@@ -20,6 +20,6 @@ Every new semester, students receive a syllabus for each of their classes with 2
 
 ## Idea 4: Ghostly
 
-A social media platform that is driven by the creation of communities where users share Spotify and Youtube media.
-Platforms like Reddit can become too oversaturated with posts and sometimes you just want to look for media in the form of music or videos. This is where Ghostly comes into play. Communities are groups that have a specific niche, for example rap, skateboarding, etc. People join these groups and post Youtube videos or music from Spotify that relate to the niche of the group. These communities become a great way for people to further explore their interests.
+A social media platform that is driven by the creation of communities where users share books and Youtube media.
+Platforms like Reddit can become too oversaturated with posts and sometimes you just want to look for media in the form of readings or videos. This is where Ghostly comes into play. Communities are groups that have a specific niche, for example rap, skateboarding, etc. People join these groups and post Youtube videos or books that relate to the niche of the group. These communities become a great way for people to further explore their interests.
 
