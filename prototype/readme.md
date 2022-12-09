@@ -11,6 +11,7 @@ Technical stack:
 1. Frontend: Next.js
 2. Backend: Express.js
 3. APIs used: Google book + Youtube
+4. We use Firebase for OAuth and Firestore for storing our data. 
 
 How it works:
 1. The backend expressjs server (port 3080) uses Google API key to gain access from google book and youtube API (such as search by keyword function). Then we setup the api routes (/api/getbook and /api/getvideo) for GET methods to request. Both API accept one parameter, namely 'title'.
